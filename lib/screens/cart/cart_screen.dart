@@ -66,7 +66,7 @@ class CartScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline5),
                               ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/');
+                                    Navigator.pushNamed(context, '/home');
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black,
@@ -85,7 +85,7 @@ class CartScreen extends StatelessWidget {
                             height: 10,
                           ),
                           SizedBox(
-                            height: 430,
+                            height: 380,
                             child: ListView.builder(
                               itemBuilder: (context, index) {
                                 return CardProductCard(

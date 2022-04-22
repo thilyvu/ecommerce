@@ -38,9 +38,15 @@ dependencies:
   equatable: ^2.0.0
   flutter_bloc: ^8.0.1
   firebase_core: ^1.13.1
+  firebase_auth: ^3.3.12
+  email_validator: ^2.0.1
   cloud_firestore: ^3.1.10
   flutter_svg: ^1.0.0
-
+  percent_indicator: ^3.4.0
+  image_picker: ^0.8.5
+  path_provider: ^2.0.9
+  path: ^1.8.0
+  shared_preferences: ^2.0.13
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +73,8 @@ flutter:
   assets:
     - assets/
     - assets/svgs/
+    - assets/images/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

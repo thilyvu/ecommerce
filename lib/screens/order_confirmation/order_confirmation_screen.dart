@@ -3,8 +3,10 @@ import 'package:ecommerce/models/models.dart';
 import 'package:ecommerce/widgets/custom_app_bar.dart';
 import 'package:ecommerce/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../blocs/blocs.dart';
 import '../../widgets/order_summary_product_card.dart';
 
 class OrderConfirmation extends StatelessWidget {
@@ -33,8 +35,7 @@ class OrderConfirmation extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.white),
                                   onPressed: () {
-                                 
-                                    Navigator.pushNamed(context, '/');
+                                    Navigator.pushNamed(context, '/home');
                                   },
                                   child: Text(
                                     'BACK TO SHOPPING',
@@ -94,15 +95,24 @@ class OrderConfirmation extends StatelessWidget {
               style: Theme.of(context).textTheme.headline5,),
               const Divider(thickness: 2,),
               const SizedBox(height: 5,),
-              ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  OrderSummaryProductCard(product: Product.products[0], quantity: 2,),
-                  OrderSummaryProductCard(product: Product.products[1], quantity: 2,)
-                ],
+              BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  if(state is CartLoaded) {
+                        return ListView(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                
+                                OrderSummaryProductCard(product: Product.products[0], quantity: 2,),
+                                OrderSummaryProductCard(product: Product.products[1], quantity: 2,)
+                              ],
+                            );
+                  } 
+                   return const Text('Something went wrong');
+                  
+                },
               )
             ],),
           )

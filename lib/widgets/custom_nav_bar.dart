@@ -13,7 +13,7 @@ class CustomNavBar extends StatelessWidget {
         children: [
         IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/');
+              Navigator.pushNamed(context, '/home');
             },
             icon: const Icon(Icons.home), color: Colors.white,),
              IconButton(
@@ -23,7 +23,7 @@ class CustomNavBar extends StatelessWidget {
             icon: const Icon(Icons.shopping_cart,color: Colors.white)),
              IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/user');
+              Navigator.pushNamed(context, '/profile');
             },
             icon: const Icon(Icons.person,color: Colors.white))
       ]),

@@ -99,17 +99,17 @@ class CheckoutScreen extends StatelessWidget {
                       context
                           .read<CheckoutBloc>()
                           .add(UpdateCheckout(city: value));
-                    }, context, 'City'),
+                    }, context, 'Ward'),
                     _buildTextFormField((value) {
                       context
                           .read<CheckoutBloc>()
                           .add(UpdateCheckout(country: value));
-                    }, context, 'Country'),
+                    }, context, 'District'),
                     _buildTextFormField((value) {
                       context
                           .read<CheckoutBloc>()
                           .add(UpdateCheckout(zipCode: value));
-                    }, context, 'Zip code'),
+                    }, context, 'Phone'),
                     Text(
                       'ORDER SUMMARY',
                       style: Theme.of(context).textTheme.headline3,

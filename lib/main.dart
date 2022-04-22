@@ -2,11 +2,11 @@ import 'package:ecommerce/blocs/blocs.dart';
 import 'package:ecommerce/repositories/category/category_repository.dart';
 import 'package:ecommerce/repositories/checkout/checkout_reposity.dart';
 import 'package:ecommerce/repositories/product/product_repository.dart';
-import 'package:ecommerce/screens/Home/home_screen.dart';
-import 'package:ecommerce/screens/splash/splash_screen.dart';
+import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
+import 'package:ecommerce/screens/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'config/app_router.dart';
@@ -18,12 +18,18 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => WishlistBloc()..add(LoadWishlist())),
@@ -49,10 +55,27 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        home: const HomeScreen(),
+        home: Scaffold(
+            body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Something went wrong! Please try again!!'),
+              );
+            } else if (snapshot.hasData) {
+              return const HomeScreen();
+            } else {
+              return const WelcomePage();
+            }
+          },
+        )),
         theme: theme(),
         onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: SplashScreen.routeName,
       ),
     );
   }

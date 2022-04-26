@@ -1,4 +1,5 @@
 import 'package:ecommerce/constants/colors.dart';
+import 'package:ecommerce/models/currentUserData.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/widget/avatar.dart';
 import 'package:ecommerce/screens/profile/widget/number.dart';
@@ -19,15 +20,22 @@ class ProfilePage extends StatefulWidget {
       settings: const RouteSettings(name: routeName),
     );
   }
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late CurrentUser user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = UserPreferences.getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final CurrentUser user = CurrentUser.getUserFromFirebase();
-    final user = UserPreferences.getUser();
     return Scaffold(
       appBar: buildAppBar(context),
       body: ListView(
@@ -36,8 +44,8 @@ class _ProfilePageState extends State<ProfilePage> {
           AvatarWidget(
             imagePath: user.photoURL.toString(),
             onClick: () async {
-              await Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const EditProfilePage()));
+              await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EditProfilePage()));
               setState(() {});
             },
             isEdit: false,
@@ -60,15 +68,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 size: 18,
                 color: kAccent,
               ),
-              onClick: () {}),
-          ProfileButton(
-              text: "Cập nhật Email",
-              icon: const Icon(
-                Icons.edit,
-                size: 18,
-                color: kAccent,
-              ),
-              onClick: () {}),
+              onClick: () =>
+                  Navigator.pushNamed(context, '/profile/update_password')),
           ProfileButton(
               text: "Đăng xuất",
               icon: const Icon(
@@ -85,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future logOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      Navigator.pushNamed(context, '/welcome');
       Utils.showSnackBar('Logout successfully!');
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print

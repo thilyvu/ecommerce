@@ -4,6 +4,8 @@ import 'package:ecommerce/repositories/checkout/checkout_reposity.dart';
 import 'package:ecommerce/repositories/product/product_repository.dart';
 import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/home/home_screen.dart';
+import 'package:ecommerce/utils/snackBar.dart';
+import 'package:ecommerce/utils/user_preference.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,8 @@ import 'config/theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  await UserPreferences.init();
   runApp(const MyApp());
 }
 
@@ -55,6 +59,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        scaffoldMessengerKey: Utils.messengerKey,
         home: Scaffold(
             body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),

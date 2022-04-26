@@ -7,10 +7,9 @@ import 'package:ecommerce/screens/profile/widget/avatar.dart';
 import 'package:ecommerce/screens/profile/widget/input.dart';
 import 'package:ecommerce/utils/backAppBar.dart';
 import 'package:ecommerce/utils/user_preference.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -22,6 +21,7 @@ class EditProfilePage extends StatefulWidget {
       settings: const RouteSettings(name: routeName),
     );
   }
+
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
@@ -32,8 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-    // ignore: unused_local_variable
-    User user = UserPreferences.getUser();
+    user = UserPreferences.getUser();
   }
 
   @override
@@ -45,20 +44,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           AvatarWidget(
-              imagePath: user.photoURL,
-              onClick: () async {
-                final image =
-                    // ignore: deprecated_member_use
-                    await ImagePicker().getImage(source: ImageSource.gallery);
-                if (image == null) return;
-                final directory = await getApplicationDocumentsDirectory();
-                final name = basename(image.path);
-                final imageFile = File('${directory.path}/$name');
-                final newImage = await File(image.path).copy(imageFile.path);
-                setState(() => user = user.copy(photoURL: newImage.path));
-              },
-              isEdit: true),
-          const SizedBox(
+              imagePath: user.photoURL, onClick: updateAvatar, isEdit: true),
+          SizedBox(
             height: 10,
           ),
           InputWidget(
@@ -66,18 +53,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
               text: user.email,
               isEnabled: false,
               onChanged: (email) => user = user.copy(email: email)),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
           InputWidget(
               label: 'Full Name',
               text: user.displayName,
               onChanged: (name) => user = user.copy(displayName: name)),
-          const SizedBox(
-            height: 10,
-          ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 20,
           ),
           RoundedButton(
             text: 'Save',
@@ -90,7 +74,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void updateProfile() {
-    UserPreferences.setUser(user);
-    // navigatorKey.currentState!.pop();
+    UserPreferences.setUser(user, context);
+  }
+
+  Future updateAvatar() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    final directory = await getApplicationDocumentsDirectory();
+    final name = Path.basename(image.path);
+    final imageFile = File('${directory.path}/$name');
+    final newImage = await File(image.path).copy(imageFile.path);
+    setState(() => user = user.copy(photoURL: newImage.path));
   }
 }

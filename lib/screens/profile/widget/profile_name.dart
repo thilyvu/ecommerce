@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ecommerce/models/currentUserData.dart';
 import 'package:flutter/material.dart';
 
 class ProfileName extends StatelessWidget {
-  final User user;
+  final CurrentUser user;
   const ProfileName({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -10,15 +10,15 @@ class ProfileName extends StatelessWidget {
     return Column(
       children: [
         Text(
-          user.displayName.toString(),
+          user.displayName,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
           height: 4,
         ),
         Text(
-          user.email.toString(),
-          style: const TextStyle(color: Colors.grey),
+          user.email,
+          style: const TextStyle(color: Colors.grey, fontSize: 14),
         )
       ],
     );

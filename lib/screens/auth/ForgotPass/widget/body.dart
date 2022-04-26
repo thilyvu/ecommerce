@@ -2,7 +2,7 @@ import 'package:ecommerce/constants/colors.dart';
 import 'package:ecommerce/icons/rounded_button.dart';
 import 'package:ecommerce/icons/text_field_container.dart';
 import 'package:ecommerce/screens/auth/Login/widget/background.dart';
-import 'package:ecommerce/utils.dart';
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

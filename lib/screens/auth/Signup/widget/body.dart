@@ -5,7 +5,7 @@ import 'package:ecommerce/icons/text_field_container.dart';
 import 'package:ecommerce/screens/auth/Signup/widget/background.dart';
 import 'package:ecommerce/screens/auth/Signup/widget/or_divider.dart';
 import 'package:ecommerce/screens/auth/Signup/widget/social_icon.dart';
-import 'package:ecommerce/utils.dart';
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +22,14 @@ class BodySignUp extends StatefulWidget {
 class _BodySignUpState extends State<BodySignUp> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   @override
   // ignore: must_call_super
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
   }
 
   @override
@@ -48,6 +50,20 @@ class _BodySignUpState extends State<BodySignUp> {
               SvgPicture.asset(
                 "assets/icons/signup.svg",
                 height: size.height * 0.35,
+              ),
+              TextFieldContainer(
+                child: TextFormField(
+                  controller: nameController,
+                  cursorColor: kPrimaryButton,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.person,
+                      color: kPrimaryButton,
+                    ),
+                    hintText: "Your Display Name",
+                    border: InputBorder.none,
+                  ),
+                ),
               ),
               TextFieldContainer(
                 child: TextFormField(
@@ -144,10 +160,12 @@ class _BodySignUpState extends State<BodySignUp> {
               child: CircularProgressIndicator(),
             ));
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential user =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      user.user?.updateDisplayName(nameController.text.trim());
       Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print

@@ -3,6 +3,7 @@ import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/order_confirmation/order_confirmation_screen.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/profile.dart';
+import 'package:ecommerce/screens/profile/update_password.dart';
 import 'package:ecommerce/screens/screens.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,8 @@ class AppRouter {
         return ProfilePage.route();
       case EditProfilePage.routeName:
         return EditProfilePage.route();
+      case UpdatePasswordPage.routeName:
+        return UpdatePasswordPage.route();
       default:
         return _errorRoute();
     }

@@ -1,5 +1,3 @@
-// import 'dart:js';
-
 import 'package:ecommerce/constants/colors.dart';
 import 'package:ecommerce/screens/auth/ForgotPass/forgotPass.dart';
 import 'package:ecommerce/screens/auth/Login/widget/already_have_an_account_acheck.dart';
@@ -7,7 +5,7 @@ import 'package:ecommerce/icons/rounded_button.dart';
 import 'package:ecommerce/icons/text_field_container.dart';
 import 'package:ecommerce/screens/auth/Login/widget/background.dart';
 import 'package:ecommerce/screens/auth/Signup/signup.dart';
-import 'package:ecommerce/utils.dart';
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -128,12 +126,8 @@ class _BodyLoginState extends State<BodyLogin> {
       );
       Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
-
       Utils.showSnackBar(e.message);
+      Navigator.pushNamed(context, '/welcome');
     }
-
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

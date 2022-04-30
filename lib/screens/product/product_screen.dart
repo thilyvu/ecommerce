@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce/blocs/wishlist/bloc/wishlist_bloc.dart';
 import 'package:ecommerce/models/product_model.dart';
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:ecommerce/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,9 +45,7 @@ class ProductScreen extends StatelessWidget {
                           .add(AddProductToWishlist(product));
 
                       // ignore: prefer_const_declarations
-                      final snackBar = const SnackBar(
-                          content: Text('Added to your Wishlist!'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Utils.showSnackBar('Added to your Wishlist!', 'primary');
                     },
                     icon: const Icon(
                       Icons.favorite,
@@ -61,9 +60,7 @@ class ProductScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<CartBloc>().add(AddProduct(product));
                       // ignore: prefer_const_declarations
-                      final snackBar = const SnackBar(
-                          content: Text('Added to your Cart!'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Utils.showSnackBar("Added to your Cart!", 'primary');
                       Navigator.pushNamed(context, '/cart');
                     },
                     child: Text(

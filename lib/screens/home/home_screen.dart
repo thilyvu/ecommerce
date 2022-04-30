@@ -29,8 +29,8 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-            const EmojiText(),
-            const SearchInput(),
+              const EmojiText(),
+              const SearchInput(),
               // ignore: avoid_unnecessary_containers
               Container(
                 child: BlocBuilder<CategoryBloc, CategoryState>(
@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               //section title
-              const SectionTitle(title: 'RECOMMEND'),
+              const SectionTitle(title: 'RECOMMEND ITEMS'),
               // //product carousel
               // ProductCard(product: Product.products[0],)
               BlocBuilder<ProductBloc, ProductState>(
@@ -72,21 +72,19 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                   if (state is ProductLoaded) {
-                  return ProductCarousel(
-                      products: state.products
-                          .where((product) => product.isRecommend)
-                          .toList());
+                    return ProductCarousel(
+                        products: state.products
+                            .where((product) => product.isRecommend)
+                            .toList());
+                  } else {
+                    return const Text('Something went wrong');
                   }
-        
-                  else {
-                      return const Text('Something went wrong');
-                    }
                 },
               ),
               const SectionTitle(title: 'POPULAR'),
               // //product carousel
               // ProductCard(product: Product.products[0],)
-             BlocBuilder<ProductBloc, ProductState>(
+              BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   if (state is ProductLoading) {
                     return const Center(
@@ -94,21 +92,19 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                   if (state is ProductLoaded) {
-                  return ProductCarousel(
-                      products: state.products
-                          .where((product) => product.isPopular)
-                          .toList());
+                    return ProductCarousel(
+                        products: state.products
+                            .where((product) => product.isPopular)
+                            .toList());
+                  } else {
+                    return const Text('Something went wrong');
                   }
-        
-                  else {
-                      return const Text('Something went wrong');
-                    }
                 },
               ),
-              const SectionTitle(title: 'SPECIAL'),
+              const SectionTitle(title: 'SPECIAL ITEMS'),
               // //product carousel
               // ProductCard(product: Product.products[0],)
-             BlocBuilder<ProductBloc, ProductState>(
+              BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   if (state is ProductLoading) {
                     return const Center(
@@ -116,21 +112,21 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                   if (state is ProductLoaded) {
-                  return ProductCarousel(
-                      products: state.products
-                          .where((product) => !product.isPopular || !product.isRecommend)
-                          .toList());
+                    return ProductCarousel(
+                        products: state.products
+                            .where((product) =>
+                                !product.isPopular || !product.isRecommend)
+                            .toList());
+                  } else {
+                    return const Text('Something went wrong');
                   }
-        
-                  else {
-                      return const Text('Something went wrong');
-                    }
                 },
               ),
             ],
           ),
         ));
   }
+
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: kBackground,
@@ -144,12 +140,14 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: kFontLight, fontSize: 16),
         ),
       ),
-     actions: [
+      actions: [
         IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/wishlist');
-            },
-            icon: const Icon(Icons.favorite), color: Colors.black,)
+          onPressed: () {
+            Navigator.pushNamed(context, '/wishlist');
+          },
+          icon: const Icon(Icons.favorite),
+          color: Colors.black,
+        )
       ],
     );
   }

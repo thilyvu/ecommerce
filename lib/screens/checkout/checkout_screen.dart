@@ -1,3 +1,4 @@
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:ecommerce/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,12 +45,11 @@ class CheckoutScreen extends StatelessWidget {
                                     context.read<CheckoutBloc>().add(
                                         ConfirmCheckout(
                                             checkout: state.checkout));
-                                    // const snackBar = SnackBar(
-                                    //     content:
-                                    //         Text('Order successful!'));
-                                    // ScaffoldMessenger.of(context)
-                                    //     .showSnackBar(snackBar);
-                                    Navigator.pushNamed(context, '/order-confirmation');
+                                    Utils.showSnackBar(
+                                        'Order successful!', 'primary');
+
+                                    Navigator.pushNamed(
+                                        context, '/order-confirmation');
                                   },
                                   child: Text(
                                     'ORDER NOW',

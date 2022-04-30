@@ -80,12 +80,12 @@ class _BodyForgotPassState extends State<BodyForgotPass> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
-      Utils.showSnackBar('Password Reset Email Sent!');
+      Utils.showSnackBar('Password Reset Email Sent!', 'primary');
       // navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print(e);
-      Utils.showSnackBar(e.message);
+      Utils.showSnackBar(e.message, 'danger');
       // navigatorKey.currentState!.pop();
     }
   }

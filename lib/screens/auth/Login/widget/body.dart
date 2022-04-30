@@ -26,6 +26,7 @@ class _BodyLoginState extends State<BodyLogin> {
   @override
   // ignore: must_call_super
   void dispose() {
+    super.dispose();
     emailController.dispose();
     passwordController.dispose();
   }
@@ -113,21 +114,21 @@ class _BodyLoginState extends State<BodyLogin> {
   }
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ));
       Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message);
-      Navigator.pushNamed(context, '/welcome');
+      Utils.showSnackBar(e.message, 'danger');
+      passwordController.clear();
     }
   }
 }

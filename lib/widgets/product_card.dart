@@ -1,4 +1,5 @@
 import 'package:ecommerce/blocs/wishlist/bloc/wishlist_bloc.dart';
+import 'package:ecommerce/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -110,34 +111,35 @@ class ProductCard extends StatelessWidget {
             product: product,
             height: height,
           ),
-          ProductBackground(adjWidth: adjWidth, widgets: [Expanded(
-                    flex: 3,
-                    child: ProductInformation(
-                      product: product,
-                      fontColor: fontColor,
-                    ),
-                  ),
-                  ProductAction(product: product),
-                  isWishList
-                      ? Expanded(
-                          child: IconButton(
-                              onPressed: () {
-                                const snackBar = SnackBar(
-                                    content:
-                                        Text('Removed from your Wishlist!'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                context
-                                    .read<WishlistBloc>()
-                                    .add(RemoveProductFromWishlist(product));
-                              },
-                              icon: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              )))
-                      : const SizedBox()
-                  ],
-                  ),
+          ProductBackground(
+            adjWidth: adjWidth,
+            widgets: [
+              Expanded(
+                flex: 3,
+                child: ProductInformation(
+                  product: product,
+                  fontColor: fontColor,
+                ),
+              ),
+              ProductAction(product: product),
+              isWishList
+                  ? Expanded(
+                      child: IconButton(
+                          onPressed: () {
+                            Utils.showSnackBar(
+                                'Removed from your Wishlist!', 'primary');
+
+                            context
+                                .read<WishlistBloc>()
+                                .add(RemoveProductFromWishlist(product));
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          )))
+                  : const SizedBox()
+            ],
+          ),
         ],
       ),
     );
@@ -165,14 +167,9 @@ class ProductAction extends StatelessWidget {
           return Expanded(
               child: IconButton(
                   onPressed: () {
-                    context
-                        .read<CartBloc>()
-                        .add(AddProduct(product));
+                    context.read<CartBloc>().add(AddProduct(product));
                     // ignore: prefer_const_declarations
-                    final snackBar = const SnackBar(
-                        content: Text('Added to your Cart!'));
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(snackBar);
+                    Utils.showSnackBar('Added to your Cart!', 'primary');
                   },
                   icon: const Icon(
                     Icons.add_circle,
@@ -266,12 +263,11 @@ class ProductBackground extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 5),
         alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(color: Colors.black.withAlpha(80)),
-        child: Padding(padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-          ...widgets
-        ]),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [...widgets]),
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/cart/bloc/cart_bloc.dart';
-import '../models/product_model.dart';
+import '../../../blocs/cart/bloc/cart_bloc.dart';
+import '../../../models/product_model.dart';
 
 class CardProductCard extends StatelessWidget {
   final Product product;
@@ -46,12 +46,11 @@ class CardProductCard extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        context
-                            .read<CartBloc>()
-                            .add(RemoveProduct(product));
+                        context.read<CartBloc>().add(RemoveProduct(product));
                       },
                       icon: const Icon(Icons.remove_circle)),
-                  Text('$quantity', style: Theme.of(context).textTheme.headline4),
+                  Text('$quantity',
+                      style: Theme.of(context).textTheme.headline4),
                   IconButton(
                       onPressed: () {
                         context.read<CartBloc>().add(AddProduct(product));

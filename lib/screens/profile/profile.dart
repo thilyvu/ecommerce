@@ -87,11 +87,11 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.pushNamed(context, '/welcome');
-      Utils.showSnackBar('Logout successfully!');
+      Utils.showSnackBar('Logout successfully!', 'primary');
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print(e);
-      Utils.showSnackBar(e.message);
+      Utils.showSnackBar(e.message, 'danger');
     }
   }
 }

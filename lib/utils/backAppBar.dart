@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
 AppBar buildAppBar(BuildContext context) {
@@ -7,7 +5,7 @@ AppBar buildAppBar(BuildContext context) {
     leading: BackButton(
       color: Colors.black,
       onPressed: () {
-          Navigator.pop(context);
+        Navigator.pop(context);
       },
     ),
     backgroundColor: Colors.transparent,

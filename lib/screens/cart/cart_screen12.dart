@@ -1,12 +1,10 @@
-import 'package:ecommerce/blocs/cart/bloc/cart_bloc.dart';
-import 'package:ecommerce/widgets/custom_app_bar.dart';
-import 'package:ecommerce/widgets/order_summary.dart';
+import 'package:ecommerce/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widget/cart_product_card.dart';
+import '../../blocs/cart/bloc/cart_bloc.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends StatelessWidget {
   static const String routeName = '/cart';
   static Route route() {
     return MaterialPageRoute(
@@ -16,11 +14,6 @@ class CartScreen extends StatefulWidget {
 
   const CartScreen({Key? key}) : super(key: key);
 
-  @override
-  State<CartScreen> createState() => _CartScreenState();
-}
-
-class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

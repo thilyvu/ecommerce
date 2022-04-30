@@ -143,10 +143,11 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             currentPassword.text.trim(), context);
       } else {
         Utils.showSnackBar(
-            'Current password & New password cannot be identical');
+            'Current password & New password cannot be identical', 'danger');
       }
     } else {
-      Utils.showSnackBar('New password & Confirmation password are unmatched');
+      Utils.showSnackBar(
+          'New password & Confirmation password are unmatched', 'danger');
     }
   }
 }

@@ -27,7 +27,7 @@ class UserPreferences {
 
   static Future init() async {
     _preferences = await SharedPreferences.getInstance();
-    user = getUserFromFirebase();
+    user = await getUserFromFirebase();
   }
 
   static CurrentUser getUser() {
@@ -41,11 +41,11 @@ class UserPreferences {
       await firebaseUser.updateDisplayName(newUser.displayName);
 
       Navigator.pop(context);
-      Utils.showSnackBar('Update profile successfully!');
+      Utils.showSnackBar('Update profile successfully!', 'primary');
 
       await _preferences.setString(_keyUser, jsonEncode(newUser.toJson()));
     } catch (_) {
-      Utils.showSnackBar('Invalid information. Please try again');
+      Utils.showSnackBar('Invalid information. Please try again', 'danger');
     }
   }
 
@@ -53,9 +53,9 @@ class UserPreferences {
     try {
       await firebaseUser.updatePassword(newPass);
       Navigator.pop(context);
-      Utils.showSnackBar('Update profile successfully!');
+      Utils.showSnackBar('Update profile successfully!', 'primary');
     } catch (_) {
-      Utils.showSnackBar('Invalid information. Please try again');
+      Utils.showSnackBar('Invalid information. Please try again', 'danger');
     }
   }
 
@@ -66,6 +66,7 @@ class UserPreferences {
 
     firebaseUser.reauthenticateWithCredential(credential).then((value) {
       updatePassword(newPass, context);
-    }).catchError((e) => Utils.showSnackBar("Current password is incorrect"));
+    }).catchError(
+        (e) => Utils.showSnackBar("Current password is incorrect", 'danger'));
   }
 }

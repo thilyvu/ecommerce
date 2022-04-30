@@ -171,7 +171,7 @@ class _BodySignUpState extends State<BodySignUp> {
       // ignore: avoid_print
       print(e);
 
-      Utils.showSnackBar(e.message);
+      Utils.showSnackBar(e.message, 'danger');
     }
 
     // navigatorKey.currentState!.popUntil((route) => route.isFirst);

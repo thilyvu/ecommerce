@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:ecommerce/models/currentUserData.dart';
-import 'package:ecommerce/screens/profile/update_password.dart';
+import 'package:ecommerce/utils/firestore_preference.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -68,5 +69,21 @@ class UserPreferences {
       updatePassword(newPass, context);
     }).catchError(
         (e) => Utils.showSnackBar("Current password is incorrect", 'danger'));
+  }
+
+  static Future createNewUser(
+      String email, String password, String name, BuildContext context) async {
+    try {
+      UserCredential user =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user.user?.updateDisplayName(name);
+      Navigator.pushNamed(context, '/home');
+      FireStorePreference.createNewUserFireStore(user.user, context);
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message, 'danger');
+    }
   }
 }

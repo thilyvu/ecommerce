@@ -38,7 +38,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, "Update Password"),
       body: Form(
         key: formKey,
         child: ListView(

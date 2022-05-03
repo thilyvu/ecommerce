@@ -6,6 +6,7 @@ import 'package:ecommerce/screens/auth/Signup/widget/background.dart';
 import 'package:ecommerce/screens/auth/Signup/widget/or_divider.dart';
 import 'package:ecommerce/screens/auth/Signup/widget/social_icon.dart';
 import 'package:ecommerce/utils/snackBar.dart';
+import 'package:ecommerce/utils/user_preference.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -159,21 +160,7 @@ class _BodySignUpState extends State<BodySignUp> {
         builder: (context) => const Center(
               child: CircularProgressIndicator(),
             ));
-    try {
-      UserCredential user =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-      user.user?.updateDisplayName(nameController.text.trim());
-      Navigator.pushNamed(context, '/home');
-    } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
-
-      Utils.showSnackBar(e.message, 'danger');
-    }
-
-    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    UserPreferences.createNewUser(emailController.text.trim(),
+        passwordController.text.trim(), nameController.text.trim(), context);
   }
 }

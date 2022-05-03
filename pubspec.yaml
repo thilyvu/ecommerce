@@ -47,6 +47,7 @@ dependencies:
   path_provider: ^2.0.9
   path: ^1.8.0
   shared_preferences: ^2.0.13
+  get: ^4.6.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

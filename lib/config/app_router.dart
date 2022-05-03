@@ -1,5 +1,7 @@
 import 'package:ecommerce/models/models.dart';
 import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
+import 'package:ecommerce/screens/checkout/customer_info.dart';
+import 'package:ecommerce/screens/checkout/test.dart';
 import 'package:ecommerce/screens/order_confirmation/order_confirmation_screen.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/profile.dart';
@@ -17,6 +19,10 @@ class AppRouter {
       // ignore: no_duplicate_case_values
       case HomeScreen.routeName:
         return HomeScreen.route();
+      case CustomerInfo.routeName:
+        return CustomerInfo.route();
+      case ListAddress.routeName:
+        return ListAddress.route();
       case SplashScreen.routeName:
         return SplashScreen.route();
       case CartScreen.routeName:
@@ -39,6 +45,8 @@ class AppRouter {
         return EditProfilePage.route();
       case UpdatePasswordPage.routeName:
         return UpdatePasswordPage.route();
+      case TestScreen.routeName:
+        return TestScreen.route();
       default:
         return _errorRoute();
     }

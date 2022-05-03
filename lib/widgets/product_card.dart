@@ -168,7 +168,7 @@ class ProductAction extends StatelessWidget {
               child: IconButton(
                   onPressed: () {
                     context.read<CartBloc>().add(AddProduct(product));
-                    // ignore: prefer_const_declarations
+
                     Utils.showSnackBar('Added to your Cart!', 'primary');
                   },
                   icon: const Icon(

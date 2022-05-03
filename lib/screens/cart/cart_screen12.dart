@@ -66,14 +66,15 @@ class CartScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline5),
                               ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/home');
+                                    Navigator.pushNamed(
+                                        context, '/list-address');
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black,
                                       shape: const RoundedRectangleBorder(),
                                       elevation: 0),
                                   child: Text(
-                                    'Choose address',
+                                    'Choose Address',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5!

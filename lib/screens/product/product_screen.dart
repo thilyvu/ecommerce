@@ -43,8 +43,6 @@ class ProductScreen extends StatelessWidget {
                       context
                           .read<WishlistBloc>()
                           .add(AddProductToWishlist(product));
-
-                      // ignore: prefer_const_declarations
                       Utils.showSnackBar('Added to your Wishlist!', 'primary');
                     },
                     icon: const Icon(
@@ -59,7 +57,7 @@ class ProductScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(primary: Colors.white),
                     onPressed: () {
                       context.read<CartBloc>().add(AddProduct(product));
-                      // ignore: prefer_const_declarations
+
                       Utils.showSnackBar("Added to your Cart!", 'primary');
                       Navigator.pushNamed(context, '/cart');
                     },

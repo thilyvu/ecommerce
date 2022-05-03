@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, 'Profile User'),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [

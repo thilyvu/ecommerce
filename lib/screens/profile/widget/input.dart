@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class InputWidget extends StatefulWidget {
   final String label;
+  final String text;
   final int maxLines;
   final bool isEnabled;
-  final TextEditingController controller;
   final ValueChanged<String> onChanged;
 
   const InputWidget({
@@ -13,7 +13,7 @@ class InputWidget extends StatefulWidget {
     required this.onChanged,
     this.maxLines = 1,
     this.isEnabled = true,
-    required this.controller,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -32,12 +32,13 @@ class _InputWidgetState extends State<InputWidget> {
           height: 8,
         ),
         TextFormField(
-          controller: widget.controller,
+          controller: TextEditingController(text: widget.text),
           enabled: widget.isEnabled,
           maxLines: widget.maxLines,
           decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+          onChanged: widget.onChanged,
         )
       ],
     );

@@ -33,7 +33,7 @@ class WishlistController extends GetxController {
     });
   }
 
-  void removeProduct(String id) {
+  void removeProductFromWishlist(String id) {
     documentReference.collection('wishlist').doc(id).delete().whenComplete(() {
       Get.back();
       Utils.showSnackBar("Deleted successfully", "primary");

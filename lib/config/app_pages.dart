@@ -84,10 +84,9 @@ class AppPages {
         page: () => ProductScreen(),
         bindings: [ProductBinding(), CategoryBinding()]),
     GetPage(
-      name: '/profile',
-      page: () => ProfilePage(),
-      binding: AddressBinding(),
-    ),
+        name: '/profile',
+        page: () => ProfilePage(),
+        bindings: [UserBinding(), AddressBinding()]),
     GetPage(
       name: '/profile/password',
       page: () => UpdatePasswordPage(),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/controller/user_controller.dart';
-import 'package:ecommerce/models/cart_model.dart';
 import 'package:ecommerce/models/models.dart';
 import 'package:ecommerce/screens/cart/cart_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';

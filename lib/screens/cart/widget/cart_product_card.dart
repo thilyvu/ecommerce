@@ -1,6 +1,5 @@
 import 'package:ecommerce/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../models/product_model.dart';
 
@@ -44,7 +43,6 @@ class CartProductCard extends GetView<CartController> {
                   IconButton(
                       onPressed: () {
                         controller.removeProduct(product.id!);
-                        // context.read<CartBloc>().add(RemoveProduct(product));
                       },
                       icon: const Icon(Icons.remove_circle)),
                   Text('$quantity',
@@ -52,7 +50,6 @@ class CartProductCard extends GetView<CartController> {
                   IconButton(
                       onPressed: () {
                         controller.addProductToCart(product);
-                        // context.read<CartBloc>().add(AddProduct(product));
                       },
                       icon: const Icon(Icons.add_circle))
                 ],

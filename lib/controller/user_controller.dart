@@ -1,14 +1,17 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:ecommerce/models/user_model.dart';
 import 'package:ecommerce/screens/home/home_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as Path;
 
 class UserController extends GetxController {
   CurrentUser user = CurrentUser();
-  late RxString nameController = "".obs;
+  RxString avatarController = "".obs;
   String uid = 'null';
 
   @override
@@ -24,7 +27,7 @@ class UserController extends GetxController {
   CurrentUser getUserFromFirebase() {
     final User firebaseAuth = FirebaseAuth.instance.currentUser!;
     uid = firebaseAuth.uid;
-    nameController.value = firebaseAuth.displayName!;
+    avatarController.value = firebaseAuth.photoURL!;
     String photoURL = firebaseAuth.photoURL != null
         ? firebaseAuth.photoURL.toString()
         : "assets/images/avatar.jpg";
@@ -38,10 +41,10 @@ class UserController extends GetxController {
   String? validateDisplayName(String value) =>
       value.isEmpty ? "Display Name can not be empty" : null;
 
-  Future updateUser(CurrentUser newUser) async {
+  Future updateUser(String newName) async {
     try {
-      await user.user?.updatePhotoURL(newUser.photoURL);
-      await user.user?.updateDisplayName(newUser.displayName);
+      await user.user?.updatePhotoURL(avatarController.value);
+      await user.user?.updateDisplayName(newName);
 
       Get.back();
       Utils.showSnackBar('Update profile successfully!', 'primary');
@@ -82,5 +85,15 @@ class UserController extends GetxController {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message, 'danger');
     }
+  }
+
+  Future updateAvatar() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    final directory = await getApplicationDocumentsDirectory();
+    final name = Path.basename(image.path);
+    final imageFile = File('${directory.path}/$name');
+    final newImage = await File(image.path).copy(imageFile.path);
+    avatarController.value = newImage.path;
   }
 }

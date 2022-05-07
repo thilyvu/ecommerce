@@ -1,9 +1,6 @@
-import 'package:ecommerce/blocs/wishlist/bloc/wishlist_bloc.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../blocs/cart/bloc/cart_bloc.dart';
 import '../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
@@ -129,9 +126,9 @@ class ProductCard extends StatelessWidget {
                             Utils.showSnackBar(
                                 'Removed from your Wishlist!', 'primary');
 
-                            context
-                                .read<WishlistBloc>()
-                                .add(RemoveProductFromWishlist(product));
+                            // context
+                            //     .read<WishlistBloc>()
+                            //     .add(RemoveProductFromWishlist(product));
                           },
                           icon: const Icon(
                             Icons.delete,
@@ -156,30 +153,31 @@ class ProductAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
-        if (state is CartLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is CartLoaded) {
-          return Expanded(
-              child: IconButton(
-                  onPressed: () {
-                    context.read<CartBloc>().add(AddProduct(product));
+    return Container();
+    // return BlocBuilder<CartBloc, CartState>(
+    //   builder: (context, state) {
+    //     if (state is CartLoading) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     }
+    //     if (state is CartLoaded) {
+    //       return Expanded(
+    //           child: IconButton(
+    //               onPressed: () {
+    //                 context.read<CartBloc>().add(AddProduct(product));
 
-                    Utils.showSnackBar('Added to your Cart!', 'primary');
-                  },
-                  icon: const Icon(
-                    Icons.add_circle,
-                    color: Colors.white,
-                  )));
-        } else {
-          return const Text('Something went wrong');
-        }
-      },
-    );
+    //                 Utils.showSnackBar('Added to your Cart!', 'primary');
+    //               },
+    //               icon: const Icon(
+    //                 Icons.add_circle,
+    //                 color: Colors.white,
+    //               )));
+    //     } else {
+    //       return const Text('Something went wrong');
+    //     }
+    //   },
+    // );
   }
 }
 
@@ -203,7 +201,8 @@ class ProductInformation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          product.name,
+          // product.name,
+          "",
           style: Theme.of(context)
               .textTheme
               .headline5!
@@ -239,7 +238,7 @@ class ProductImage extends StatelessWidget {
     return Container(
       width: adjWidth,
       height: height,
-      child: Image.network(product.imageUrl, fit: BoxFit.cover),
+      child: Image.network(product.imageUrl!, fit: BoxFit.cover),
     );
   }
 }

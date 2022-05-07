@@ -1,24 +1,24 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/controller/user_controller.dart';
-import 'package:ecommerce/models/address_model.dart';
+import 'package:ecommerce/models/checkout_model.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
-class AddressController extends GetxController {
-  final DOCUMENT_NAME = "address";
+import '../models/checkout_model.dart';
+
+class CheckoutController extends GetxController {
+  final DOCUMENT_NAME = "checkout";
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
   String uid = Get.find<UserController>().uid;
 
-  RxList<Address> address = RxList<Address>([]);
+  RxList<Checkout> checkout = RxList<Checkout>([]);
 
   @override
   void onInit() {
     super.onInit();
     documentReference = firebaseFirestore.collection('user').doc(uid);
-    address.bindStream(getAllAddress());
+    checkout.bindStream(getAllCheckout());
   }
 
   String? validateName(String value) =>
@@ -32,23 +32,23 @@ class AddressController extends GetxController {
   String? validateWard(String value) =>
       value.isEmpty ? "Ward can not be empty" : null;
 
-  Stream<List<Address>> getAllAddress() =>
+  Stream<List<Checkout>> getAllCheckout() =>
       documentReference.collection(DOCUMENT_NAME).snapshots().map((query) =>
-          query.docs.map((item) => Address.fromSnapshot(item)).toList());
+          query.docs.map((item) => Checkout.fromSnapshot(item)).toList());
 
-  void addNewAddress(Address address) {
+  void addNewOrder(Checkout checkout) {
     documentReference
         .collection(DOCUMENT_NAME)
-        .add(address.toJson())
+        .add(checkout.toDocument())
         .whenComplete(() {
       Get.back();
-      Utils.showSnackBar("New Address's added successfully", "primary");
+      Utils.showSnackBar("New Checkout's added successfully", "primary");
     }).catchError((e) {
       Utils.showSnackBar("fail", "danger");
     });
   }
 
-  void deleteAddress(String id) {
+  void deleteOrder(String id) {
     documentReference
         .collection(DOCUMENT_NAME)
         .doc(id)

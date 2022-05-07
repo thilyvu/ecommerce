@@ -1,39 +1,18 @@
 import 'package:ecommerce/constants/colors.dart';
+import 'package:ecommerce/controller/user_controller.dart';
 import 'package:ecommerce/icons/rounded_button.dart';
-import 'package:ecommerce/screens/profile/widget/input.dart';
 import 'package:ecommerce/utils/backAppBar.dart';
 import 'package:ecommerce/utils/snackBar.dart';
-import 'package:ecommerce/utils/user_preference.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class UpdatePasswordPage extends StatefulWidget {
-  const UpdatePasswordPage({Key? key}) : super(key: key);
-  static const String routeName = '/profile/update_password';
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (context) => const UpdatePasswordPage(),
-      settings: const RouteSettings(name: routeName),
-    );
-  }
+class UpdatePasswordPage extends GetView<UserController> {
+  UpdatePasswordPage({Key? key}) : super(key: key);
 
-  @override
-  State<UpdatePasswordPage> createState() => _UpdatePasswordPageState();
-}
-
-class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final currentPassword = TextEditingController();
   final newPassword = TextEditingController();
   final verifyPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  @override
-  // ignore: must_call_super
-  void dispose() {
-    currentPassword.dispose();
-    newPassword.dispose();
-    verifyPassword.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +118,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
     if (!isValid) return;
     if (newPassword.text.trim() == verifyPassword.text.trim()) {
       if (newPassword.text.trim() != currentPassword.text.trim()) {
-        UserPreferences.checkCurrentPassword(
-            currentPassword.text.trim(), context);
+        controller.checkCurrentPassword(currentPassword.text.trim());
       } else {
         Utils.showSnackBar(
             'Current password & New password cannot be identical', 'danger');

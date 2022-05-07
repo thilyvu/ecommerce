@@ -1,80 +1,73 @@
 import 'dart:io';
 
 import 'package:ecommerce/constants/colors.dart';
+import 'package:ecommerce/controller/user_controller.dart';
 import 'package:ecommerce/icons/rounded_button.dart';
-import 'package:ecommerce/models/currentUserData.dart';
 import 'package:ecommerce/screens/profile/widget/avatar.dart';
 import 'package:ecommerce/screens/profile/widget/input.dart';
 import 'package:ecommerce/utils/backAppBar.dart';
-import 'package:ecommerce/utils/user_preference.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
-  static const String routeName = '/profile/edit';
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (context) => const EditProfilePage(),
-      settings: const RouteSettings(name: routeName),
-    );
-  }
+class UpdateProfilePage extends GetView<UserController> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
-  @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
-  late CurrentUser user;
-
-  @override
-  void initState() {
-    super.initState();
-    user = UserPreferences.getUser();
-  }
+  UpdateProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String newImg = 'null';
     return Scaffold(
-      appBar: buildAppBar(context, "Edit Profile"),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        physics: const BouncingScrollPhysics(),
-        children: [
-          AvatarWidget(
-              imagePath: user.photoURL, onClick: updateAvatar, isEdit: true),
-          SizedBox(
-            height: 10,
-          ),
-          InputWidget(
-              label: 'Email',
-              text: user.email,
-              isEnabled: false,
-              onChanged: (email) => user = user.copy(email: email)),
-          SizedBox(
-            height: 10,
-          ),
-          InputWidget(
-              label: 'Full Name',
-              text: user.displayName,
-              onChanged: (name) => user = user.copy(displayName: name)),
-          SizedBox(
-            height: 20,
-          ),
-          RoundedButton(
-            text: 'Save',
-            press: updateProfile,
-            color: kAccent,
-          )
-        ],
+      appBar: buildAppBar(context, "Update Profile"),
+      body: Form(
+        key: formKey,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          physics: const BouncingScrollPhysics(),
+          children: [
+            AvatarWidget(
+                imagePath: controller.user.photoURL!,
+                onClick: updateAvatar,
+                isEdit: true),
+            SizedBox(
+              height: 10,
+            ),
+            Obx(
+              () => InputWidget(
+                  controller:
+                      TextEditingController(text: controller.user.email!),
+                  label: 'Email',
+                  isEnabled: false),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(() => InputWidget(
+                  controller: TextEditingController(
+                      text: controller.nameController.value),
+                  label: 'Display Name',
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            RoundedButton(
+              text: 'Save',
+              press: updateProfile,
+              color: kAccent,
+            )
+          ],
+        ),
       ),
     );
   }
 
   void updateProfile() {
-    UserPreferences.setUser(user, context);
+    controller.updateUser(controller.user);
   }
 
   Future updateAvatar() async {
@@ -84,6 +77,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final name = Path.basename(image.path);
     final imageFile = File('${directory.path}/$name');
     final newImage = await File(image.path).copy(imageFile.path);
-    setState(() => user = user.copy(photoURL: newImage.path));
+    controller.user.copy(photoURL: newImage.path);
   }
 }

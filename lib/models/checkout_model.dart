@@ -1,28 +1,31 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Checkout extends Equatable {
-  final String? fullName;
-  final String? email;
-  final String? address;
-  final String? city;
-  final String? country;
-  final String? zipCode;
-  final List<Product>? products;
-  final String? subTotal;
-  final String? deliveryFee;
-  final String? total;
-  const Checkout({
-    required this.fullName,
-    required this.email,
-    required this.address,
-    required this.city,
-    required this.country,
-    required this.zipCode,
-    required this.products,
-    required this.subTotal,
-    required this.deliveryFee,
-    required this.total,
+  String? fullName;
+  String? email;
+  String? address;
+  String? city;
+  String? country;
+  String? zipCode;
+  List<Product>? products;
+  String? subTotal;
+  String? deliveryFee;
+  String? total;
+  Checkout({
+    this.fullName,
+    this.email,
+    this.address,
+    this.city,
+    this.country,
+    this.zipCode,
+    this.products,
+    this.subTotal,
+    this.deliveryFee,
+    this.total,
   });
 
   @override
@@ -38,6 +41,7 @@ class Checkout extends Equatable {
         deliveryFee,
         total
       ];
+
   Map<String, Object> toDocument() {
     // ignore: prefer_collection_literals
     Map customerAddress = Map();
@@ -54,5 +58,22 @@ class Checkout extends Equatable {
       'deliveryFee': deliveryFee!,
       'total': total!
     };
+  }
+
+  static Checkout fromSnapshot(DocumentSnapshot snap) {
+    final product = jsonDecode(snap['products']);
+    Checkout checkout = Checkout(
+      fullName: snap['customerName'],
+      email: snap['customerrEmail'],
+      address: snap['customerAddress']['address'],
+      city: snap['customerAddress']['city'],
+      country: snap['customerAddress']['country'],
+      zipCode: snap['customerAddress']['zipCode'],
+      products: snap['products'],
+      subTotal: snap['subtotal'],
+      deliveryFee: snap['deliveryFee'],
+      total: snap['total'],
+    );
+    return checkout;
   }
 }

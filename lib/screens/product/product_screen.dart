@@ -1,28 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce/blocs/wishlist/bloc/wishlist_bloc.dart';
-import 'package:ecommerce/models/product_model.dart';
-import 'package:ecommerce/utils/snackBar.dart';
+import 'package:ecommerce/controller/product_controller.dart';
+import 'package:ecommerce/screens/product/widget/add_to_cart_button.dart';
+import 'package:ecommerce/screens/product/widget/wishlist_icon.dart';
 import 'package:ecommerce/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
-import '../../blocs/cart/bloc/cart_bloc.dart';
-
-class ProductScreen extends StatelessWidget {
-  static const String routeName = '/product';
-  static Route route({required Product product}) {
-    return MaterialPageRoute(
-        builder: (context) => ProductScreen(product: product),
-        settings: const RouteSettings(name: routeName));
-  }
-
-  final Product product;
-  const ProductScreen({Key? key, required this.product}) : super(key: key);
-
+class ProductScreen extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
+    final product = controller.getProductById(Get.parameters['id']!);
     return Scaffold(
-      appBar: CustomAppBar(title: product.name),
+      // appBar: CustomAppBar(title: product.name),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         // ignore: sized_box_for_whitespace
@@ -36,40 +25,8 @@ class ProductScreen extends StatelessWidget {
                   Icons.share,
                   color: Colors.white,
                 )),
-            BlocBuilder<WishlistBloc, WishlistState>(
-              builder: (context, state) {
-                return IconButton(
-                    onPressed: () {
-                      context
-                          .read<WishlistBloc>()
-                          .add(AddProductToWishlist(product));
-                      Utils.showSnackBar('Added to your Wishlist!', 'primary');
-                    },
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                    ));
-              },
-            ),
-            BlocBuilder<CartBloc, CartState>(
-              builder: (context, state) {
-                return ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.white),
-                    onPressed: () {
-                      context.read<CartBloc>().add(AddProduct(product));
-
-                      Utils.showSnackBar("Added to your Cart!", 'primary');
-                      Navigator.pushNamed(context, '/cart');
-                    },
-                    child: Text(
-                      'ADD TO CART',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.black),
-                    ));
-              },
-            )
+            WishlistIcon(product),
+            AddCartButton(product),
           ]),
         ),
       ),
@@ -109,7 +66,7 @@ class ProductScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            product.name,
+                            "product.name",
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!

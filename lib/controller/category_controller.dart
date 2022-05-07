@@ -8,16 +8,24 @@ import 'package:get/get.dart';
 import '../models/category_model.dart';
 
 class CategoryController extends GetxController {
+  RxBool isLoading = true.obs;
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late CollectionReference collectionReference;
 
-  RxList<Category> category = RxList<Category>([]);
+  var category = RxList<Category>([]).obs;
 
   @override
   void onInit() {
     super.onInit();
     collectionReference = firebaseFirestore.collection('categories');
-    category.bindStream(getAllCategory());
+    refeshCategories();
+  }
+
+  void refeshCategories() {
+    isLoading.value = true;
+    category.value.bindStream(getAllCategory());
+    isLoading.value = false;
   }
 
   Stream<List<Category>> getAllCategory() =>
@@ -27,6 +35,8 @@ class CategoryController extends GetxController {
   void addNewCategory(Category category) {
     collectionReference.add(category.toJson()).whenComplete(() {
       Get.back();
+      refeshCategories();
+
       Utils.showSnackBar("New Category's added successfully", "primary");
     }).catchError((e) {
       Utils.showSnackBar("fail", "danger");

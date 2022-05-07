@@ -10,14 +10,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as Path;
 
 class UserController extends GetxController {
-  CurrentUser user = CurrentUser();
+  var user = CurrentUser().obs;
   RxString avatarController = "".obs;
   String uid = 'null';
 
   @override
   void onInit() {
     super.onInit();
-    user = getUserFromFirebase();
+    user.value = getUserFromFirebase();
   }
 
   bool isLoggedIn() {
@@ -43,9 +43,9 @@ class UserController extends GetxController {
 
   Future updateUser(String newName) async {
     try {
-      await user.user?.updatePhotoURL(avatarController.value);
-      await user.user?.updateDisplayName(newName);
-
+      await user.value.user?.updatePhotoURL(avatarController.value);
+      await user.value.user?.updateDisplayName(newName);
+      user.value = getUserFromFirebase();
       Get.back();
       Utils.showSnackBar('Update profile successfully!', 'primary');
     } catch (_) {
@@ -55,7 +55,7 @@ class UserController extends GetxController {
 
   Future updatePassword(String newPass) async {
     try {
-      await user.user?.updatePassword(newPass);
+      await user.value.user?.updatePassword(newPass);
       Get.back();
       Utils.showSnackBar('Update profile successfully!', 'primary');
     } catch (_) {
@@ -65,9 +65,9 @@ class UserController extends GetxController {
 
   Future checkCurrentPassword(String newPass) async {
     final credential = EmailAuthProvider.credential(
-        email: user.email.toString(), password: newPass);
+        email: user.value.email.toString(), password: newPass);
 
-    user.user?.reauthenticateWithCredential(credential).then((value) {
+    user.value.user?.reauthenticateWithCredential(credential).then((value) {
       updatePassword(newPass);
     }).catchError(
         (e) => Utils.showSnackBar("Current password is incorrect", 'danger'));

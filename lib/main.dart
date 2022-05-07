@@ -30,25 +30,6 @@ class _MyAppState extends State<MyApp> {
       getPages: AppPages.routes,
       // unknownRoute: GetPage(name: "/notfound", page: () => NotFoundPage()),
       initialRoute: AppPages.initRoute,
-      // home: Scaffold(
-      //     body: StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     } else if (snapshot.hasError) {
-      //       return const Center(
-      //         child: Text('Something went wrong! Please try again!!'),
-      //       );
-      //     } else if (snapshot.hasData) {
-      //       return const HomeScreen();
-      //     } else {
-      //       return const WelcomePage();
-      //     }
-      //   },
-      // )),
     );
   }
 }

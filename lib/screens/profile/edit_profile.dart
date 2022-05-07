@@ -16,7 +16,7 @@ class UpdateProfilePage extends GetView<UserController> {
 
   @override
   Widget build(BuildContext context) {
-    String nameController = controller.user.displayName!;
+    String nameController = controller.user.value.displayName!;
     return Scaffold(
       appBar: buildAppBar(context, "Update Profile"),
       body: Form(
@@ -33,7 +33,7 @@ class UpdateProfilePage extends GetView<UserController> {
               height: 10,
             ),
             InputWidget(
-                text: controller.user.email!,
+                text: controller.user.value.email!,
                 label: 'Email',
                 isEnabled: false,
                 onChanged: (value) {}),

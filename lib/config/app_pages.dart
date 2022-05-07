@@ -49,7 +49,12 @@ class AppPages {
     GetPage(
       name: '/cart',
       page: () => CartScreen(),
-      bindings: [UserBinding(), ProductBinding(), CartBinding()],
+      bindings: [
+        UserBinding(),
+        AddressBinding(),
+        ProductBinding(),
+        CartBinding(),
+      ],
     ),
     GetPage(
       name: '/catalog/:name',
@@ -78,7 +83,7 @@ class AppPages {
     GetPage(
         name: '/checkout',
         page: () => OrderConfirmation(),
-        bindings: [ProductBinding(), CategoryBinding()]),
+        bindings: [ProductBinding(), CategoryBinding(), AddressBinding()]),
     GetPage(
         name: '/product/:id',
         page: () => ProductScreen(),

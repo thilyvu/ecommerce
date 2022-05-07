@@ -7,18 +7,28 @@ import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
 class AddressController extends GetxController {
+  RxBool isLoading = true.obs;
+
   final DOCUMENT_NAME = "address";
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
   String uid = Get.find<UserController>().uid;
 
-  RxList<Address> address = RxList<Address>([]);
+  var address = RxList<Address>([]).obs;
+
+  var choseAddress = Address().obs;
 
   @override
   void onInit() {
     super.onInit();
     documentReference = firebaseFirestore.collection('user').doc(uid);
-    address.bindStream(getAllAddress());
+    refeshAddress();
+  }
+
+  void refeshAddress() {
+    isLoading.value = true;
+    address.value.bindStream(getAllAddress());
+    isLoading.value = false;
   }
 
   String? validateName(String value) =>
@@ -42,6 +52,7 @@ class AddressController extends GetxController {
         .add(address.toJson())
         .whenComplete(() {
       Get.back();
+      refeshAddress();
       Utils.showSnackBar("New Address's added successfully", "primary");
     }).catchError((e) {
       Utils.showSnackBar("fail", "danger");
@@ -54,10 +65,16 @@ class AddressController extends GetxController {
         .doc(id)
         .delete()
         .whenComplete(() {
-      Get.back();
+      refeshAddress();
       Utils.showSnackBar("Deleted successfully", "primary");
     }).catchError((e) {
       Utils.showSnackBar("fail", "danger");
     });
+  }
+
+  void chooseAddress(Address address) {
+    choseAddress.value = address;
+    Get.back();
+    Utils.showSnackBar("Chose Address", "primary");
   }
 }

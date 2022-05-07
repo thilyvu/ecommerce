@@ -22,7 +22,7 @@ class ProfilePage extends GetView<UserController> {
         physics: const BouncingScrollPhysics(),
         children: [
           AvatarWidget(
-            imagePath: controller.user.photoURL.toString(),
+            imagePath: controller.user.value.photoURL!,
             onClick: () => Get.to(UpdateProfilePage()),
             isEdit: false,
           ),

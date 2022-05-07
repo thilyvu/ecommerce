@@ -4,7 +4,7 @@ AppBar buildAppBar(BuildContext context, String text) {
   return AppBar(
     title: Text(
       text,
-      style: TextStyle(color: Colors.black, fontSize: 20),
+      style: Theme.of(context).textTheme.headline3,
     ),
     leading: BackButton(
       color: Colors.black,

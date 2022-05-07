@@ -1,5 +1,6 @@
 import 'package:ecommerce/controller/product_controller.dart';
 import 'package:ecommerce/screens/home/widget/category_carouse.dart';
+import 'package:ecommerce/screens/home/widget/category_grid.dart';
 import 'package:ecommerce/screens/home/widget/emoji_text.dart';
 import 'package:ecommerce/screens/home/widget/search_input.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends GetView<ProductController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(context),
+        resizeToAvoidBottomInset: false,
         bottomNavigationBar: const CustomNavBar(),
         body: SingleChildScrollView(
           child: Column(
@@ -20,18 +22,23 @@ class HomeScreen extends GetView<ProductController> {
             children: [
               const EmojiText(),
               const SearchInput(),
-              // ignore: avoid_unnecessary_containers
-              Container(child: const CategoryCarouse()),
-              //section title
+              const SectionTitle(title: 'CATEGORIES'),
+              CategoryGrid(),
               const SectionTitle(title: 'RECOMMEND ITEMS'),
-              Obx(() =>
-                  ProductCarousel(products: controller.getProductsRecommend())),
+              Obx(
+                () => ProductCarousel(
+                    products: controller.getProductsRecommend()),
+              ),
               const SectionTitle(title: 'POPULAR'),
-              Obx(() =>
-                  ProductCarousel(products: controller.getProductsPopular())),
+              Obx(
+                () =>
+                    ProductCarousel(products: controller.getProductsPopular()),
+              ),
               const SectionTitle(title: 'SPECIAL ITEMS'),
-              Obx(() =>
-                  ProductCarousel(products: controller.getProductsSpecial())),
+              Obx(
+                () =>
+                    ProductCarousel(products: controller.getProductsSpecial()),
+              ),
             ],
           ),
         ));

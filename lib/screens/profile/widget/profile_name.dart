@@ -6,20 +6,22 @@ import 'package:get/get.dart';
 class ProfileName extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          controller.user.displayName!,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Text(
-          controller.user.email!,
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
-        )
-      ],
+    return Obx(
+      () => Column(
+        children: [
+          Text(
+            controller.user.value.displayName!,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            controller.user.value.email!,
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
+          )
+        ],
+      ),
     );
   }
 }

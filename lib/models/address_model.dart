@@ -65,8 +65,6 @@ class Address {
         'ward': ward,
       };
 
-  // @override
-  // List<Object?> get props => throw UnimplementedError();
   static Address fromSnapshot(DocumentSnapshot snap) {
     Address address = Address(
         id: snap.id,

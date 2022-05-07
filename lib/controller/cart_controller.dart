@@ -6,18 +6,26 @@ import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
+  RxBool isLoading = true.obs;
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
 
   final String uid = Get.find<UserController>().uid;
 
-  RxList<Cart> cart = RxList<Cart>([]);
+  var cart = RxList<Cart>([]).obs;
 
   @override
   void onInit() {
     super.onInit();
     documentReference = firebaseFirestore.collection('user').doc(uid);
-    cart.bindStream(getAllCart());
+    refeshCart();
+  }
+
+  void refeshCart() {
+    isLoading.value = true;
+    cart.value.bindStream(getAllCart());
+    isLoading.value = false;
   }
 
   Stream<List<Cart>> getAllCart() =>

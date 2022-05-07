@@ -1,16 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 
-class Category extends Equatable {
+class Category {
+  String? id;
   String? name;
   String? imageUrl;
-  Category({this.name, this.imageUrl});
+  Category({this.id, this.name, this.imageUrl});
 
-  @override
-  List<Object?> get props => throw UnimplementedError();
   static Category fromSnapshot(DocumentSnapshot snap) {
     Category category =
-        Category(name: snap['name'], imageUrl: snap['imageUrl']);
+        Category(id: snap.id, name: snap['name'], imageUrl: snap['imageUrl']);
     return category;
   }
 

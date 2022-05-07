@@ -74,7 +74,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 'ORDER SUMMARY',
                 style: Theme.of(context).textTheme.headline3,
               ),
-              const OrderSummary()
+              OrderSummary()
             ],
           ),
         )));

@@ -98,7 +98,7 @@ class OrderConfirmation extends StatelessWidget {
                   'ORDER CODE : #k321-edk1',
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                const OrderSummary(),
+                OrderSummary(),
                 const SizedBox(
                   height: 20,
                 ),

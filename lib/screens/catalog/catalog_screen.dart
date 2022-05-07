@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 class CatalogScreen extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
-    final categoryName = Get.parameters['name'];
+    final categoryName = Get.parameters['name']!.replaceAll("+", " ");
     return Scaffold(
-        appBar: CustomAppBar(title: categoryName!),
+        appBar: CustomAppBar(title: categoryName),
         bottomNavigationBar: const CustomNavBar(),
         body: Obx(
           () => GridView.builder(

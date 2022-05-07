@@ -102,7 +102,7 @@ class ProductCard extends GetView<WishlistController> {
     final double adjWidth = width / widthFactor;
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/product', arguments: product);
+        Get.toNamed("/product/" + product.id!);
       },
       child: Stack(
         alignment: Alignment.bottomCenter,

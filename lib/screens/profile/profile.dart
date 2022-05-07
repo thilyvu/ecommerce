@@ -1,39 +1,19 @@
 import 'package:ecommerce/constants/colors.dart';
-import 'package:ecommerce/models/currentUserData.dart';
+import 'package:ecommerce/controller/user_controller.dart';
+import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
+import 'package:ecommerce/screens/profile/update_password.dart';
 import 'package:ecommerce/screens/profile/widget/avatar.dart';
 import 'package:ecommerce/screens/profile/widget/number.dart';
 import 'package:ecommerce/screens/profile/widget/profile_name.dart';
 import 'package:ecommerce/screens/profile/widget/upgrade_button.dart';
 import 'package:ecommerce/utils/backAppBar.dart';
 import 'package:ecommerce/utils/snackBar.dart';
-import 'package:ecommerce/utils/user_preference.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
-  static const String routeName = '/profile';
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (context) => const ProfilePage(),
-      settings: const RouteSettings(name: routeName),
-    );
-  }
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  late CurrentUser user;
-
-  @override
-  void initState() {
-    super.initState();
-    user = UserPreferences.getUser();
-  }
-
+class ProfilePage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,18 +22,14 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           AvatarWidget(
-            imagePath: user.photoURL.toString(),
-            onClick: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const EditProfilePage()));
-              setState(() {});
-            },
+            imagePath: controller.user.value.photoURL!,
+            onClick: () => Get.to(UpdateProfilePage()),
             isEdit: false,
           ),
           const SizedBox(
             height: 24,
           ),
-          ProfileName(user: user),
+          ProfileName(),
           const SizedBox(
             height: 10,
           ),
@@ -68,8 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 size: 18,
                 color: kAccent,
               ),
-              onClick: () =>
-                  Navigator.pushNamed(context, '/profile/update_password')),
+              onClick: () => Get.to(() => UpdatePasswordPage())),
           ProfileButton(
               text: "Đăng xuất",
               icon: const Icon(
@@ -86,11 +61,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Future logOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pushNamed(context, '/welcome');
+      Get.to(() => WelcomePage());
       Utils.showSnackBar('Logout successfully!', 'primary');
     } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
       Utils.showSnackBar(e.message, 'danger');
     }
   }

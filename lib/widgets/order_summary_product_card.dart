@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/product_model.dart';
 
 class OrderSummaryProductCard extends StatelessWidget {
-  const OrderSummaryProductCard({
-    Key? key,
-    required this.product,
-    required this.quantity
-  }) : super(key: key);
+  const OrderSummaryProductCard(
+      {Key? key, required this.product, required this.quantity})
+      : super(key: key);
   final Product product;
   final int quantity;
   @override
@@ -17,7 +15,7 @@ class OrderSummaryProductCard extends StatelessWidget {
       child: Row(
         children: [
           Image.network(
-            product.imageUrl,
+            product.imageUrl!,
             fit: BoxFit.cover,
             height: 80,
             width: 100,
@@ -31,7 +29,7 @@ class OrderSummaryProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name,
+                  product.name!,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 Text(

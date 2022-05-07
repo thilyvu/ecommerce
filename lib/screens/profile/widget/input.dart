@@ -10,10 +10,10 @@ class InputWidget extends StatefulWidget {
   const InputWidget({
     Key? key,
     required this.label,
-    required this.text,
     required this.onChanged,
     this.maxLines = 1,
     this.isEnabled = true,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -21,19 +21,6 @@ class InputWidget extends StatefulWidget {
 }
 
 class _InputWidgetState extends State<InputWidget> {
-  late final TextEditingController controller;
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController(text: widget.text);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,8 +31,8 @@ class _InputWidgetState extends State<InputWidget> {
         const SizedBox(
           height: 8,
         ),
-        TextField(
-          controller: controller,
+        TextFormField(
+          controller: TextEditingController(text: widget.text),
           enabled: widget.isEnabled,
           maxLines: widget.maxLines,
           decoration: InputDecoration(

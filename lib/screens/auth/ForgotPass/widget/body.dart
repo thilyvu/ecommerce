@@ -20,8 +20,8 @@ class _BodyForgotPassState extends State<BodyForgotPass> {
   final passwordController = TextEditingController();
 
   @override
-  // ignore: must_call_super
   void dispose() {
+    super.dispose();
     emailController.dispose();
     passwordController.dispose();
   }

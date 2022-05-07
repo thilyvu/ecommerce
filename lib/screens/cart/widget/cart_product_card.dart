@@ -1,24 +1,22 @@
+import 'package:ecommerce/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../blocs/cart/bloc/cart_bloc.dart';
+import 'package:get/get.dart';
 import '../../../models/product_model.dart';
 
-class CardProductCard extends StatelessWidget {
+class CartProductCard extends GetView<CartController> {
   final Product product;
   final int quantity;
-  const CardProductCard(
+  const CartProductCard(
       {Key? key, required this.product, required this.quantity})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(children: [
           Image.network(
-            product.imageUrl,
+            product.imageUrl!,
             width: 100,
             height: 80,
             fit: BoxFit.cover,
@@ -29,7 +27,7 @@ class CardProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name,
+                  product.name!,
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 Text(
@@ -40,28 +38,22 @@ class CardProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              return Row(
+          Obx(() => Row(
                 children: [
                   IconButton(
                       onPressed: () {
-                        context.read<CartBloc>().add(RemoveProduct(product));
+                        controller.removeProduct(product.id!);
                       },
                       icon: const Icon(Icons.remove_circle)),
                   Text('$quantity',
                       style: Theme.of(context).textTheme.headline4),
                   IconButton(
                       onPressed: () {
-                        context.read<CartBloc>().add(AddProduct(product));
+                        controller.addProductToCart(product);
                       },
                       icon: const Icon(Icons.add_circle))
                 ],
-              );
-            },
-          )
-        ],
-      ),
-    );
+              ))
+        ]));
   }
 }

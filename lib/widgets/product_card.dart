@@ -1,12 +1,13 @@
-import 'package:ecommerce/blocs/wishlist/bloc/wishlist_bloc.dart';
+import 'package:ecommerce/controller/cart_controller.dart';
+import 'package:ecommerce/controller/product_controller.dart';
+import 'package:ecommerce/controller/wishlist_controller.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../blocs/cart/bloc/cart_bloc.dart';
+import 'package:get/get.dart';
 import '../models/product_model.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends GetView<WishlistController> {
   const ProductCard.product(
       {Key? key,
       required this.product,
@@ -101,7 +102,7 @@ class ProductCard extends StatelessWidget {
     final double adjWidth = width / widthFactor;
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/product', arguments: product);
+        Get.toNamed("/product/" + product.id!);
       },
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -126,12 +127,7 @@ class ProductCard extends StatelessWidget {
                   ? Expanded(
                       child: IconButton(
                           onPressed: () {
-                            Utils.showSnackBar(
-                                'Removed from your Wishlist!', 'primary');
-
-                            context
-                                .read<WishlistBloc>()
-                                .add(RemoveProductFromWishlist(product));
+                            controller.removeProductFromWishlist(product.id!);
                           },
                           icon: const Icon(
                             Icons.delete,
@@ -146,7 +142,7 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-class ProductAction extends StatelessWidget {
+class ProductAction extends GetView<CartController> {
   const ProductAction({
     Key? key,
     required this.product,
@@ -156,30 +152,15 @@ class ProductAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
-        if (state is CartLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is CartLoaded) {
-          return Expanded(
-              child: IconButton(
-                  onPressed: () {
-                    context.read<CartBloc>().add(AddProduct(product));
-
-                    Utils.showSnackBar('Added to your Cart!', 'primary');
-                  },
-                  icon: const Icon(
-                    Icons.add_circle,
-                    color: Colors.white,
-                  )));
-        } else {
-          return const Text('Something went wrong');
-        }
-      },
-    );
+    return Expanded(
+        child: IconButton(
+            onPressed: () {
+              controller.addProductToCart(product);
+            },
+            icon: const Icon(
+              Icons.add_circle,
+              color: Colors.white,
+            )));
   }
 }
 
@@ -203,7 +184,7 @@ class ProductInformation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          product.name,
+          product.name!,
           style: Theme.of(context)
               .textTheme
               .headline5!
@@ -239,7 +220,7 @@ class ProductImage extends StatelessWidget {
     return Container(
       width: adjWidth,
       height: height,
-      child: Image.network(product.imageUrl, fit: BoxFit.cover),
+      child: Image.network(product.imageUrl!, fit: BoxFit.cover),
     );
   }
 }

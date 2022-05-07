@@ -7,23 +7,19 @@ class HeroCarouselCard extends StatelessWidget {
   final Category? category;
   final Product? product;
   // ignore: use_key_in_widget_constructors
-  const HeroCarouselCard({
-     this.category,
-     this.product
-  });
+  const HeroCarouselCard({this.category, this.product});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () { 
-        if(product == null) { 
-        Navigator.pushNamed(
-          context,
-          '/catalog',
-          arguments: category,
-        );
+      onTap: () {
+        if (product == null) {
+          Navigator.pushNamed(
+            context,
+            '/catalog',
+            arguments: category,
+          );
         }
-
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
@@ -32,9 +28,7 @@ class HeroCarouselCard extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Image.network(
-                  product == null ? 
-                  category!.imageUrl 
-                  : product!.imageUrl,
+                  product == null ? category!.imageUrl! : product!.imageUrl!,
                   fit: BoxFit.cover,
                   width: 1000.0,
                 ),
@@ -56,9 +50,7 @@ class HeroCarouselCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10.0, horizontal: 20.0),
                     child: Text(
-                      product == null ? 
-                  category!.name 
-                  : '',
+                      product == null ? category!.name! : '',
                       style: Theme.of(context)
                           .textTheme
                           .headline2!

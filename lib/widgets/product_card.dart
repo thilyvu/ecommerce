@@ -155,7 +155,7 @@ class ProductAction extends GetView<CartController> {
     return Expanded(
         child: IconButton(
             onPressed: () {
-              controller.addProductToCart(product);
+              controller.increaseCartItem(product);
             },
             icon: const Icon(
               Icons.add_circle,

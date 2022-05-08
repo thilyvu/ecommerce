@@ -35,6 +35,14 @@ class Product extends Equatable {
     return product;
   }
 
+  static Product fromJson(Map<String, dynamic> json) => Product(
+      name: json['name'],
+      category: json['category'],
+      imageUrl: json['imageUrl'],
+      price: json['price'].toDouble(),
+      isRecommend: json['isRecommend'],
+      isPopular: json['isPopular']);
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'category': category,

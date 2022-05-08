@@ -1,15 +1,10 @@
-import 'package:ecommerce/controller/address_controller.dart';
 import 'package:ecommerce/controller/cart_controller.dart';
 import 'package:ecommerce/models/address_model.dart';
 import 'package:ecommerce/screens/address/list_address.dart';
-import 'package:ecommerce/screens/cart/widget/list_card.dart';
-import 'package:ecommerce/screens/loading_screen.dart';
 import 'package:ecommerce/widgets/custom_app_bar.dart';
 import 'package:ecommerce/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'widget/cart_product_card.dart';
 
 class CartScreen extends GetView<CartController> {
   @override
@@ -53,10 +48,9 @@ class CartScreen extends GetView<CartController> {
                       children: [
                         Column(
                           children: [
-                            Text(Address.concatAddress(
-                                Get.find<AddressController>()
-                                    .choseAddress
-                                    .value)),
+                            Text(controller.choseAddress.name == 'null'
+                                ? Address.concatAddress(controller.choseAddress)
+                                : ""),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -83,7 +77,79 @@ class CartScreen extends GetView<CartController> {
                             const SizedBox(
                               height: 10,
                             ),
-                            const SizedBox(height: 380, child: ListCard()),
+                            SizedBox(
+                              height: 380,
+                              child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: Row(children: [
+                                        Image.network(
+                                          controller.carts.value[index].product!
+                                              .imageUrl!,
+                                          width: 100,
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                controller.carts.value[index]
+                                                    .product!.name!,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5,
+                                              ),
+                                              Text(
+                                                '\$${controller.carts.value[index].product!.price}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  controller.decreasedCartItem(
+                                                      index,
+                                                      controller
+                                                          .carts.value[index]);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.remove_circle)),
+                                            Text(
+                                                controller
+                                                    .carts.value[index].quantity
+                                                    .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline4),
+                                            IconButton(
+                                                onPressed: () {
+                                                  controller.increaseCartItem(
+                                                      controller
+                                                          .carts
+                                                          .value[index]
+                                                          .product!);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.add_circle))
+                                          ],
+                                        )
+                                      ]),
+                                    );
+                                  },
+                                  itemCount: controller.carts.value.length),
+                            ),
                           ],
                         ),
                         OrderSummary(),

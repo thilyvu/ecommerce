@@ -12,7 +12,7 @@ class AddCartButton extends GetView<CartController> {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.white),
         onPressed: () {
-          controller.addProductToCart(product);
+          controller.increaseCartItem(product);
         },
         child: Text(
           'ADD TO CART',

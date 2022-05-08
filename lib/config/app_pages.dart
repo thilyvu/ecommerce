@@ -54,6 +54,7 @@ class AppPages {
         AddressBinding(),
         ProductBinding(),
         CartBinding(),
+        WishlistBinding(),
       ],
     ),
     GetPage(
@@ -84,10 +85,13 @@ class AppPages {
         name: '/checkout',
         page: () => OrderConfirmation(),
         bindings: [ProductBinding(), CategoryBinding(), AddressBinding()]),
-    GetPage(
-        name: '/product/:id',
-        page: () => ProductScreen(),
-        bindings: [ProductBinding(), CategoryBinding()]),
+    GetPage(name: '/product/:id', page: () => ProductScreen(), bindings: [
+      UserBinding(),
+      ProductBinding(),
+      CategoryBinding(),
+      WishlistBinding(),
+      CartBinding()
+    ]),
     GetPage(
         name: '/profile',
         page: () => ProfilePage(),

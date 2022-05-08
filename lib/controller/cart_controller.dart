@@ -32,16 +32,21 @@ class CartController extends GetxController {
       documentReference.collection('cart').snapshots().map((query) =>
           query.docs.map((item) => Cart.fromSnapshot(item)).toList());
 
-  void addProductToCart(Product product) {
-    documentReference
-        .collection('product')
-        .add(product.toJson())
-        .whenComplete(() {
+  Future addProductToCart(Product product) async {
+    try {
+      // await documentReference.collection('cart').add(product.toJson());
       Get.to(CartScreen());
       Utils.showSnackBar("Added successfully", "primary");
-    }).catchError((e) {
+    } catch (_) {
       Utils.showSnackBar("fail", "danger");
-    });
+    }
+
+    // documentReference.collection('cart').add(product.toJson()).whenComplete(() {
+    //   Get.to(CartScreen());
+    //   Utils.showSnackBar("Added successfully", "primary");
+    // }).catchError((e) {
+    //   Utils.showSnackBar("fail", "danger");
+    // });
   }
 
   void removeProduct(String id) {

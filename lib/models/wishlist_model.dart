@@ -15,14 +15,14 @@ class Wishlist extends Equatable {
   List<Object?> get props => [product];
 
   static Wishlist fromSnapshot(DocumentSnapshot snap) {
-    Wishlist cart = Wishlist(
+    Wishlist wishlist = Wishlist(
       id: snap.id,
-      product: snap['product'],
+      product: Product.fromJson(snap['product']),
     );
-    return cart;
+    return wishlist;
   }
 
   Map<String, dynamic> toJson() => {
-        'product': product,
+        'product': product!.toJson(),
       };
 }

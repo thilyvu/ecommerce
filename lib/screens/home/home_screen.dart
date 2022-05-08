@@ -1,5 +1,4 @@
 import 'package:ecommerce/controller/product_controller.dart';
-import 'package:ecommerce/screens/home/widget/category_carouse.dart';
 import 'package:ecommerce/screens/home/widget/category_grid.dart';
 import 'package:ecommerce/screens/home/widget/emoji_text.dart';
 import 'package:ecommerce/screens/home/widget/search_input.dart';
@@ -14,7 +13,6 @@ class HomeScreen extends GetView<ProductController> {
     return Scaffold(
         appBar: _buildAppBar(context),
         resizeToAvoidBottomInset: false,
-        bottomNavigationBar: const CustomNavBar(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,6 +2,7 @@ import 'package:ecommerce/binding/address_binding.dart';
 import 'package:ecommerce/binding/cart_binding.dart';
 import 'package:ecommerce/binding/category_binding.dart';
 import 'package:ecommerce/binding/checkout_binding.dart';
+import 'package:ecommerce/binding/navigation_binding.dart';
 import 'package:ecommerce/binding/product_binding.dart';
 import 'package:ecommerce/binding/user_binding.dart';
 import 'package:ecommerce/binding/wishlist_binding.dart';
@@ -12,6 +13,7 @@ import 'package:ecommerce/screens/auth/Login/login.dart';
 import 'package:ecommerce/screens/auth/Signup/signup.dart';
 import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/cart/cart_screen.dart';
+import 'package:ecommerce/screens/dashboard/dashboard_screen.dart';
 import 'package:ecommerce/screens/order_confirmation/order_confirmation_screen.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/profile.dart';
@@ -24,11 +26,21 @@ class AppPages {
   AppPages._();
 
   static final initRoute =
-      FirebaseAuth.instance.currentUser != null ? '/home' : '/welcome';
+      FirebaseAuth.instance.currentUser != null ? '/dashboard' : '/welcome';
 
   static final routes = [
+    GetPage(name: '/dashboard', page: () => DashboardPage(), bindings: [
+      NavigationBinding(),
+      UserBinding(),
+      AddressBinding(),
+      CategoryBinding(),
+      ProductBinding(),
+      CartBinding(),
+      CheckoutBinding(),
+      WishlistBinding()
+    ]),
     GetPage(
-      name: '//welcome',
+      name: '/welcome',
       page: () => WelcomePage(),
     ),
     GetPage(
@@ -76,18 +88,25 @@ class AppPages {
       page: () => CustomerInfoPage(),
       bindings: [UserBinding(), AddressBinding()],
     ),
-    GetPage(
-        name: '/home',
-        page: () => HomeScreen(),
-        bindings: [UserBinding(), ProductBinding(), CategoryBinding()]),
+    GetPage(name: '/home', page: () => HomeScreen(), bindings: [
+      UserBinding(),
+      AddressBinding(),
+      ProductBinding(),
+      CategoryBinding(),
+      CartBinding()
+    ]),
     GetPage(
         name: '/checkout',
         page: () => OrderConfirmation(),
         bindings: [ProductBinding(), CategoryBinding(), AddressBinding()]),
-    GetPage(
-        name: '/product/:id',
-        page: () => ProductScreen(),
-        bindings: [ProductBinding(), CategoryBinding()]),
+    GetPage(name: '/product/:id', page: () => ProductScreen(), bindings: [
+      UserBinding(),
+      ProductBinding(),
+      AddressBinding(),
+      CategoryBinding(),
+      WishlistBinding(),
+      CartBinding(),
+    ]),
     GetPage(
         name: '/profile',
         page: () => ProfilePage(),
@@ -109,7 +128,7 @@ class AppPages {
     GetPage(
       name: '/wishlist',
       page: () => WishlistScreen(),
-      binding: WishlistBinding(),
+      bindings: [UserBinding(), ProductBinding(), WishlistBinding()],
     ),
   ];
 }

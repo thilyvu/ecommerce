@@ -25,7 +25,7 @@ class WishlistController extends GetxController {
   void addProductToWishlist(Product product) {
     documentReference
         .collection('wishlist')
-        .add(product.toJson())
+        .add(Wishlist(product: product).toJson())
         .whenComplete(() {
       Utils.showSnackBar("Added successfully", "primary");
     }).catchError((e) {

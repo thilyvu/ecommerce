@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:equatable/equatable.dart';
 
-class Cart extends Equatable {
+class Cart {
   String? id;
   Product? product;
   int? quantity;
@@ -19,14 +19,14 @@ class Cart extends Equatable {
   static Cart fromSnapshot(DocumentSnapshot snap) {
     Cart cart = Cart(
       id: snap.id,
-      product: snap['product'],
+      product: Product.fromJson(snap['product']),
       quantity: snap['quantity'],
     );
     return cart;
   }
 
   Map<String, dynamic> toJson() => {
-        'product': product,
+        'product': product!.toJson(),
         'quantity': quantity,
       };
 

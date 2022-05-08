@@ -88,9 +88,10 @@ class AppPages {
     GetPage(name: '/product/:id', page: () => ProductScreen(), bindings: [
       UserBinding(),
       ProductBinding(),
+      AddressBinding(),
       CategoryBinding(),
       WishlistBinding(),
-      CartBinding()
+      CartBinding(),
     ]),
     GetPage(
         name: '/profile',
@@ -113,7 +114,7 @@ class AppPages {
     GetPage(
       name: '/wishlist',
       page: () => WishlistScreen(),
-      binding: WishlistBinding(),
+      bindings: [UserBinding(), ProductBinding(), WishlistBinding()],
     ),
   ];
 }

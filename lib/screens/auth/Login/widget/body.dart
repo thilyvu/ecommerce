@@ -6,6 +6,7 @@ import 'package:ecommerce/icons/rounded_button.dart';
 import 'package:ecommerce/icons/text_field_container.dart';
 import 'package:ecommerce/screens/auth/Login/widget/background.dart';
 import 'package:ecommerce/screens/auth/Signup/signup.dart';
+import 'package:ecommerce/screens/dashboard/dashboard_screen.dart';
 import 'package:ecommerce/screens/home/home_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -107,7 +108,7 @@ class BodyLogin extends GetView<UserController> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      Get.to(HomeScreen());
+      Get.to(DashboardPage());
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message, 'danger');
       passwordController.clear();

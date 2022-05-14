@@ -1,5 +1,6 @@
 import 'package:ecommerce/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ProfileButton extends StatelessWidget {
   final String text;
@@ -11,15 +12,47 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onClick,
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.all(20),
-      ),
-      icon: icon,
-      label: Text(
-        text,
-        style: const TextStyle(color: kAccent),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          primary: Colors.black,
+          padding: EdgeInsets.all(20),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: Color(0xFFF5F6F9),
+        ),
+        onPressed: onClick,
+        child: Row(
+          children: [
+            Icon(icon.icon),
+            SizedBox(width: 20),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Tên Voucher",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  "Voucher description",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+            Icon(Icons.arrow_forward_ios),
+          ],
+        ),
       ),
     );
   }

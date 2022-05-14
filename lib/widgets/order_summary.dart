@@ -1,6 +1,11 @@
 import 'package:ecommerce/controller/cart_controller.dart';
+import 'package:ecommerce/models/cart_model.dart';
+import 'package:ecommerce/screens/checkout/checkout_screen.dart';
+import 'package:ecommerce/screens/voucher/voucher_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 
 class OrderSummary extends GetView<CartController> {
   @override
@@ -22,8 +27,7 @@ class OrderSummary extends GetView<CartController> {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(
-                    // '\$${state.cart.subtotalString}',
-                    "",
+                    Cart.subTotal(controller.carts.value).toString(),
                     style: Theme.of(context).textTheme.headline5,
                   )
                 ],
@@ -39,12 +43,61 @@ class OrderSummary extends GetView<CartController> {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(
-                    // '\$${state.cart.deliveryFeeString}',
-                    "",
+                    Cart.deliveryFee().toString(),
                     style: Theme.of(context).textTheme.headline5,
                   )
                 ],
               ),
+              const Divider(
+                color: Colors.grey,
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF5F6F9),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(Icons.receipt)),
+                  Spacer(),
+                  TextButton(
+                    child: Text(
+                        controller.choseVoucher.value.id != null
+                            ? controller.choseVoucher.value.name!
+                            : "Add voucher code",
+                        style: TextStyle(
+                          color: Colors.black,
+                        )),
+                    onPressed: () {
+                      Get.to(() => VoucherPage());
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 12,
+                    color: Colors.black,
+                  )
+                ],
+              ),
+              if (controller.choseVoucher.value.id != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    Text(
+                      "-" +
+                          controller.choseVoucher.value.discount.toString() +
+                          ".0",
+                      style: Theme.of(context).textTheme.headline5,
+                    )
+                  ],
+                ),
             ],
           ),
         ),
@@ -73,8 +126,9 @@ class OrderSummary extends GetView<CartController> {
                             .copyWith(color: Colors.white),
                       ),
                       Text(
-                        // '\$${state.cart.totalString}',
-                        "",
+                        Cart.total(controller.carts.value,
+                                controller.choseVoucher.value)
+                            .toString(),
                         style: Theme.of(context)
                             .textTheme
                             .headline5!
@@ -84,7 +138,19 @@ class OrderSummary extends GetView<CartController> {
               ),
             )
           ],
-        )
+        ),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: Colors.black),
+            onPressed: () {
+              Get.to(() => CheckOutScreen());
+            },
+            child: Text(
+              'GO TO CHECKOUT',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3!
+                  .copyWith(color: Colors.white),
+            ))
       ],
     );
   }

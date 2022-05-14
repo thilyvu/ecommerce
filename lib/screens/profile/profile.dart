@@ -33,7 +33,7 @@ class ProfilePage extends GetView<UserController> {
           const SizedBox(
             height: 10,
           ),
-          const NumberWidget(),
+          // const NumberWidget(),
           const SizedBox(
             height: 10,
           ),

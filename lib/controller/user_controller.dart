@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ecommerce/models/user_model.dart';
+import 'package:ecommerce/screens/auth/Login/login.dart';
 import 'package:ecommerce/screens/home/home_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,10 +28,10 @@ class UserController extends GetxController {
   CurrentUser getUserFromFirebase() {
     final User firebaseAuth = FirebaseAuth.instance.currentUser!;
     uid = firebaseAuth.uid;
-    avatarController.value = firebaseAuth.photoURL!;
     String photoURL = firebaseAuth.photoURL != null
         ? firebaseAuth.photoURL.toString()
         : "assets/images/avatar.jpg";
+    avatarController.value = photoURL;
     return CurrentUser(
         user: firebaseAuth,
         photoURL: photoURL,
@@ -81,7 +82,8 @@ class UserController extends GetxController {
         password: password,
       );
       user.user?.updateDisplayName(name);
-      Get.to(HomeScreen());
+      Get.to(LoginPage());
+      Utils.showSnackBar("Signed Up Successfully", 'primary');
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message, 'danger');
     }

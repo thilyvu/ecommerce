@@ -35,29 +35,4 @@ class CheckoutController extends GetxController {
   Stream<List<Checkout>> getAllCheckout() =>
       documentReference.collection(DOCUMENT_NAME).snapshots().map((query) =>
           query.docs.map((item) => Checkout.fromSnapshot(item)).toList());
-
-  void addNewOrder(Checkout checkout) {
-    documentReference
-        .collection(DOCUMENT_NAME)
-        .add(checkout.toDocument())
-        .whenComplete(() {
-      Get.back();
-      Utils.showSnackBar("New Checkout's added successfully", "primary");
-    }).catchError((e) {
-      Utils.showSnackBar("fail", "danger");
-    });
-  }
-
-  void deleteOrder(String id) {
-    documentReference
-        .collection(DOCUMENT_NAME)
-        .doc(id)
-        .delete()
-        .whenComplete(() {
-      Get.back();
-      Utils.showSnackBar("Deleted successfully", "primary");
-    }).catchError((e) {
-      Utils.showSnackBar("fail", "danger");
-    });
-  }
 }

@@ -3,6 +3,9 @@ import 'package:ecommerce/controller/address_controller.dart';
 import 'package:ecommerce/controller/user_controller.dart';
 import 'package:ecommerce/models/address_model.dart';
 import 'package:ecommerce/models/models.dart';
+import 'package:ecommerce/models/voucher_model.dart';
+import 'package:ecommerce/screens/cart/cart_screen.dart';
+import 'package:ecommerce/screens/checkout/checkout_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +16,11 @@ class CartController extends GetxController {
   late DocumentReference documentReference;
 
   final String uid = Get.find<UserController>().uid;
-  final Address choseAddress = Get.find<AddressController>().choseAddress.value;
+  // final Address choseAddress = Get.find<AddressController>().choseAddress.value;
 
   var carts = RxList<Cart>([]).obs;
+  var choseVoucher = Voucher().obs;
+  var choseAddress = Address().obs;
 
   @override
   void onInit() {
@@ -77,7 +82,38 @@ class CartController extends GetxController {
         .whenComplete(() {
       Utils.showSnackBar("updated item quantity successfully", "primary");
       refeshCart();
-    }).catchError(
-            (_) => Utils.showSnackBar("Can't add new item to cart", "danger"));
+    }).catchError((_) => Utils.showSnackBar("Can't update cart", "danger"));
+  }
+
+  void chooseVoucher(Voucher voucher) {
+    choseVoucher.value = voucher;
+    Utils.showSnackBar("Chose Voucher Successfully", "primary");
+    Get.back();
+  }
+
+  void chooseAddress(Address address) {
+    choseAddress.value = address;
+    Get.back();
+    Utils.showSnackBar("Chose Address", "primary");
+  }
+
+  void checkoutOrder(CartController cartController) {
+    Checkout data = Checkout(
+        carts: cartController.carts.value,
+        address: cartController.choseAddress.value,
+        voucher: cartController.choseVoucher.value,
+        subTotal: Cart.subTotal(cartController.carts.value),
+        total: Cart.total(
+            cartController.carts.value, cartController.choseVoucher.value),
+        deliveryFee: Cart.deliveryFee());
+    documentReference
+        .collection("checkout")
+        .add(data.toJson())
+        .whenComplete(() {
+      Utils.showSnackBar("Checked out new order successfully", "primary");
+      Get.to(() => CheckOutScreen());
+    }).catchError((_) {
+      Utils.showSnackBar("Check out new order failed", "danger");
+    });
   }
 }

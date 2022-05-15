@@ -12,52 +12,16 @@ class CheckoutController extends GetxController {
   late DocumentReference documentReference;
   String uid = Get.find<UserController>().uid;
 
-  RxList<Checkout> checkout = RxList<Checkout>([]);
+  var checkout = RxList<Checkout>([]).obs;
 
   @override
   void onInit() {
     super.onInit();
     documentReference = firebaseFirestore.collection('user').doc(uid);
-    checkout.bindStream(getAllCheckout());
+    checkout.value.bindStream(getAllCheckout());
   }
-
-  String? validateName(String value) =>
-      value.isEmpty ? "Name can not be empty" : null;
-  String? validatePhone(String value) =>
-      value.isEmpty ? "Phone can not be empty" : null;
-  String? validateStreet(String value) =>
-      value.isEmpty ? "Street can not be empty" : null;
-  String? validateProvince(String value) =>
-      value.isEmpty ? "Province can not be empty" : null;
-  String? validateWard(String value) =>
-      value.isEmpty ? "Ward can not be empty" : null;
 
   Stream<List<Checkout>> getAllCheckout() =>
       documentReference.collection(DOCUMENT_NAME).snapshots().map((query) =>
           query.docs.map((item) => Checkout.fromSnapshot(item)).toList());
-
-  void addNewOrder(Checkout checkout) {
-    documentReference
-        .collection(DOCUMENT_NAME)
-        .add(checkout.toDocument())
-        .whenComplete(() {
-      Get.back();
-      Utils.showSnackBar("New Checkout's added successfully", "primary");
-    }).catchError((e) {
-      Utils.showSnackBar("fail", "danger");
-    });
-  }
-
-  void deleteOrder(String id) {
-    documentReference
-        .collection(DOCUMENT_NAME)
-        .doc(id)
-        .delete()
-        .whenComplete(() {
-      Get.back();
-      Utils.showSnackBar("Deleted successfully", "primary");
-    }).catchError((e) {
-      Utils.showSnackBar("fail", "danger");
-    });
-  }
 }

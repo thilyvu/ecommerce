@@ -5,6 +5,7 @@ import 'package:ecommerce/binding/checkout_binding.dart';
 import 'package:ecommerce/binding/navigation_binding.dart';
 import 'package:ecommerce/binding/product_binding.dart';
 import 'package:ecommerce/binding/user_binding.dart';
+import 'package:ecommerce/binding/voucher_binding.dart';
 import 'package:ecommerce/binding/wishlist_binding.dart';
 import 'package:ecommerce/screens/address/customer_info.dart';
 import 'package:ecommerce/screens/address/list_address.dart';
@@ -13,12 +14,13 @@ import 'package:ecommerce/screens/auth/Login/login.dart';
 import 'package:ecommerce/screens/auth/Signup/signup.dart';
 import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/cart/cart_screen.dart';
+import 'package:ecommerce/screens/checkout/checkout_screen.dart';
 import 'package:ecommerce/screens/dashboard/dashboard_screen.dart';
-import 'package:ecommerce/screens/order_confirmation/order_confirmation_screen.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/profile.dart';
 import 'package:ecommerce/screens/profile/update_password.dart';
 import 'package:ecommerce/screens/screens.dart';
+import 'package:ecommerce/screens/voucher/voucher_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -32,12 +34,13 @@ class AppPages {
     GetPage(name: '/dashboard', page: () => DashboardPage(), bindings: [
       NavigationBinding(),
       UserBinding(),
+      VoucherBinding(),
       AddressBinding(),
       CategoryBinding(),
       ProductBinding(),
       CartBinding(),
       CheckoutBinding(),
-      WishlistBinding()
+      WishlistBinding(),
     ]),
     GetPage(
       name: '/welcome',
@@ -47,6 +50,11 @@ class AppPages {
       name: '/login',
       page: () => LoginPage(),
       binding: UserBinding(),
+    ),
+    GetPage(
+      name: '/voucher',
+      page: () => VoucherPage(),
+      // bindings: [CartBinding(), VoucherBinding()],
     ),
     GetPage(
       name: '/forgot-password',
@@ -62,6 +70,7 @@ class AppPages {
       name: '/cart',
       page: () => CartScreen(),
       bindings: [
+        VoucherBinding(),
         UserBinding(),
         AddressBinding(),
         ProductBinding(),
@@ -74,14 +83,9 @@ class AppPages {
       bindings: [UserBinding(), ProductBinding(), CategoryBinding()],
     ),
     GetPage(
-      name: '/checkout',
-      page: () => CheckoutScreen(),
-      bindings: [UserBinding(), ProductBinding(), CheckoutBinding()],
-    ),
-    GetPage(
       name: '/list-address',
       page: () => ListAddressPage(),
-      bindings: [UserBinding(), AddressBinding()],
+      bindings: [UserBinding(), CartBinding(), AddressBinding()],
     ),
     GetPage(
       name: '/customer-info',
@@ -95,10 +99,13 @@ class AppPages {
       CategoryBinding(),
       CartBinding()
     ]),
-    GetPage(
-        name: '/checkout',
-        page: () => OrderConfirmation(),
-        bindings: [ProductBinding(), CategoryBinding(), AddressBinding()]),
+    GetPage(name: '/checkout', page: () => CheckOutScreen(), bindings: [
+      CheckoutBinding(),
+      VoucherBinding(),
+      ProductBinding(),
+      CategoryBinding(),
+      AddressBinding(),
+    ]),
     GetPage(name: '/product/:id', page: () => ProductScreen(), bindings: [
       UserBinding(),
       ProductBinding(),

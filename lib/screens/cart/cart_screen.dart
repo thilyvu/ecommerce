@@ -1,6 +1,7 @@
 import 'package:ecommerce/controller/cart_controller.dart';
 import 'package:ecommerce/models/address_model.dart';
 import 'package:ecommerce/screens/address/list_address.dart';
+import 'package:ecommerce/screens/cart/widget/address_widget.dart';
 import 'package:ecommerce/widgets/custom_app_bar.dart';
 import 'package:ecommerce/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
@@ -15,30 +16,6 @@ class CartScreen extends GetView<CartController> {
           )
         : Scaffold(
             appBar: const CustomAppBar(title: "Cart"),
-            bottomNavigationBar: BottomAppBar(
-              color: Colors.black,
-              // ignore: sized_box_for_whitespace
-              child: Container(
-                height: 70,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.white),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/checkout');
-                          },
-                          child: Text(
-                            'GO TO CHECKOUT',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline3!
-                                .copyWith(color: Colors.black),
-                          ))
-                    ]),
-              ),
-            ),
             body: ListView(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10.0),
@@ -48,9 +25,12 @@ class CartScreen extends GetView<CartController> {
                       children: [
                         Column(
                           children: [
-                            Text(controller.choseAddress.name == 'null'
-                                ? Address.concatAddress(controller.choseAddress)
-                                : ""),
+                            if (controller.choseAddress().name != null)
+                              AddressWidget(
+                                  name: controller.choseAddress.value.name!,
+                                  phone: controller.choseAddress.value.phone!,
+                                  address: Address.concatAddress(
+                                      controller.choseAddress())),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -78,7 +58,7 @@ class CartScreen extends GetView<CartController> {
                               height: 10,
                             ),
                             SizedBox(
-                              height: 380,
+                              height: 300,
                               child: ListView.builder(
                                   itemBuilder: (context, index) {
                                     return Padding(

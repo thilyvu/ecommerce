@@ -1,16 +1,13 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/models/address_model.dart';
 import 'package:ecommerce/models/cart_model.dart';
-import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/models/voucher_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Checkout extends Equatable {
   String? id;
   Address? address;
-  List<Cart>? cart;
+  List<Cart>? carts;
   double? total;
   double? subTotal;
   double? deliveryFee;
@@ -18,7 +15,7 @@ class Checkout extends Equatable {
   Checkout({
     this.id,
     this.address,
-    this.cart,
+    this.carts,
     this.subTotal,
     this.deliveryFee,
     this.total,
@@ -27,25 +24,26 @@ class Checkout extends Equatable {
 
   @override
   List<Object?> get props =>
-      [address, subTotal, deliveryFee, total, voucher, cart];
+      [address, subTotal, deliveryFee, total, voucher, carts];
 
   static Checkout fromSnapshot(DocumentSnapshot snap) {
-    var a = snap['cart'];
-    Checkout cart = Checkout(
+    Checkout checkout = Checkout(
       id: snap.id,
       address: Address.fromJson(snap['address']),
-      cart: snap['cart'],
+      carts: snap['cart']
+          .map<Cart>((mapString) => Cart.fromJson(mapString))
+          .toList(),
       voucher: Voucher.fromJson(snap['voucher']),
       total: snap['total'],
       subTotal: snap['subTotal'],
       deliveryFee: snap['deliveryFee'],
     );
-    return cart;
+    return checkout;
   }
 
   Map<String, dynamic> toJson() => {
         'address': address!.toJson(),
-        'cart': cart!,
+        'cart': carts!.map((e) => e.toJson()).toList(),
         'voucher': voucher!.toJson(),
         'total': total,
         'subTotal': subTotal,

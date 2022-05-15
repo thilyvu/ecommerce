@@ -108,7 +108,7 @@ class BodyLogin extends GetView<UserController> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      Get.to(DashboardPage());
+      Get.offAll(DashboardPage());
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message, 'danger');
       passwordController.clear();

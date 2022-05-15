@@ -1,6 +1,4 @@
-import 'package:ecommerce/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ProfileButton extends StatelessWidget {
   final String text;

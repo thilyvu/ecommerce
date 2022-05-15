@@ -5,7 +5,9 @@ import 'package:ecommerce/utils/backAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ListAddressPage extends GetView<AddressController> {
+class ListAddressPage extends GetView {
+  AddressController addressController = Get.put(AddressController());
+  CartController cartController = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -18,27 +20,27 @@ class ListAddressPage extends GetView<AddressController> {
               Expanded(
                 child: Column(
                   children: [
-                    controller.address.value.isEmpty
+                    addressController.address.value.isEmpty
                         ? const Text(
                             "You already haven't added address yet!! \nPlease add new address !!")
                         : ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             padding: EdgeInsets.all(10.0),
-                            itemCount: controller.address.value.length,
+                            itemCount: addressController.address.value.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: () => Get.find<CartController>()
-                                    .chooseAddress(
-                                        controller.address.value[index]),
+                                onTap: () => cartController.chooseAddress(
+                                    addressController.address.value[index]),
                                 onPanUpdate: (details) {
                                   // Swiping in right direction.
                                   if (details.delta.dx > 0) {}
 
                                   // Swiping in left direction.
                                   if (details.delta.dx < 0) {
-                                    controller.deleteAddress(
-                                        controller.address.value[index].id!);
+                                    addressController.deleteAddress(
+                                        addressController
+                                            .address.value[index].id!);
                                   }
                                 },
                                 child: Card(
@@ -51,10 +53,11 @@ class ListAddressPage extends GetView<AddressController> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          controller.address.value[index].name
+                                          addressController
+                                                  .address.value[index].name
                                                   .toString() +
                                               ' - ' +
-                                              controller
+                                              addressController
                                                   .address.value[index].phone
                                                   .toString(),
                                           style: TextStyle(
@@ -67,7 +70,8 @@ class ListAddressPage extends GetView<AddressController> {
                                         ),
                                         Text(
                                           Address.concatAddress(
-                                              controller.address.value[index]),
+                                              addressController
+                                                  .address.value[index]),
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             color: Colors.grey,

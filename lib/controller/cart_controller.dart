@@ -5,6 +5,7 @@ import 'package:ecommerce/models/address_model.dart';
 import 'package:ecommerce/models/models.dart';
 import 'package:ecommerce/models/voucher_model.dart';
 import 'package:ecommerce/screens/cart/cart_screen.dart';
+import 'package:ecommerce/screens/checkout/checkout_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
@@ -98,7 +99,7 @@ class CartController extends GetxController {
 
   void checkoutOrder(CartController cartController) {
     Checkout data = Checkout(
-        cart: cartController.carts.value,
+        carts: cartController.carts.value,
         address: cartController.choseAddress.value,
         voucher: cartController.choseVoucher.value,
         subTotal: Cart.subTotal(cartController.carts.value),
@@ -108,7 +109,11 @@ class CartController extends GetxController {
     documentReference
         .collection("checkout")
         .add(data.toJson())
-        .whenComplete(() {})
-        .catchError((_) {});
+        .whenComplete(() {
+      Utils.showSnackBar("Checked out new order successfully", "primary");
+      Get.to(() => CheckOutScreen());
+    }).catchError((_) {
+      Utils.showSnackBar("Check out new order failed", "danger");
+    });
   }
 }

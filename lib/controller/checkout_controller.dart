@@ -12,25 +12,14 @@ class CheckoutController extends GetxController {
   late DocumentReference documentReference;
   String uid = Get.find<UserController>().uid;
 
-  RxList<Checkout> checkout = RxList<Checkout>([]);
+  var checkout = RxList<Checkout>([]).obs;
 
   @override
   void onInit() {
     super.onInit();
     documentReference = firebaseFirestore.collection('user').doc(uid);
-    checkout.bindStream(getAllCheckout());
+    checkout.value.bindStream(getAllCheckout());
   }
-
-  String? validateName(String value) =>
-      value.isEmpty ? "Name can not be empty" : null;
-  String? validatePhone(String value) =>
-      value.isEmpty ? "Phone can not be empty" : null;
-  String? validateStreet(String value) =>
-      value.isEmpty ? "Street can not be empty" : null;
-  String? validateProvince(String value) =>
-      value.isEmpty ? "Province can not be empty" : null;
-  String? validateWard(String value) =>
-      value.isEmpty ? "Ward can not be empty" : null;
 
   Stream<List<Checkout>> getAllCheckout() =>
       documentReference.collection(DOCUMENT_NAME).snapshots().map((query) =>

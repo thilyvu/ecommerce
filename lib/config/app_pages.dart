@@ -100,6 +100,7 @@ class AppPages {
       CartBinding()
     ]),
     GetPage(name: '/checkout', page: () => CheckOutScreen(), bindings: [
+      CheckoutBinding(),
       VoucherBinding(),
       ProductBinding(),
       CategoryBinding(),

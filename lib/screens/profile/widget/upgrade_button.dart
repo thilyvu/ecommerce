@@ -32,7 +32,7 @@ class ProfileButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Tên Voucher",
+                  "Change Password",
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,
@@ -42,7 +42,7 @@ class ProfileButton extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  "Voucher description",
+                  "LogOut",
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
@@ -50,6 +50,7 @@ class ProfileButton extends StatelessWidget {
                 ),
               ],
             ),
+            Spacer(),
             Icon(Icons.arrow_forward_ios),
           ],
         ),

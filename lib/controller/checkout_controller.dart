@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/controller/user_controller.dart';
 import 'package:ecommerce/models/checkout_model.dart';
-import 'package:ecommerce/utils/snackBar.dart';
 import 'package:get/get.dart';
 
 import '../models/checkout_model.dart';
@@ -21,7 +20,14 @@ class CheckoutController extends GetxController {
     checkout.value.bindStream(getAllCheckout());
   }
 
-  Stream<List<Checkout>> getAllCheckout() =>
-      documentReference.collection(DOCUMENT_NAME).snapshots().map((query) =>
+  Stream<List<Checkout>> getAllCheckout() => documentReference
+      .collection(DOCUMENT_NAME)
+      .orderBy("timestamp", descending: true)
+      .snapshots()
+      .map((query) =>
           query.docs.map((item) => Checkout.fromSnapshot(item)).toList());
+
+  Checkout lastOrder() => checkout.value.isNotEmpty
+      ? checkout.value[checkout.value.length - 1]
+      : Checkout();
 }

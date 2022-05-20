@@ -97,6 +97,14 @@ class CartController extends GetxController {
     Utils.showSnackBar("Chose Address", "primary");
   }
 
+  Future deleteCart() async {
+    var snapshots = await documentReference.collection('cart').get();
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
+    }
+    refeshCart();
+  }
+
   void checkoutOrder(CartController cartController) {
     Checkout data = Checkout(
         carts: cartController.carts.value,
@@ -105,12 +113,15 @@ class CartController extends GetxController {
         subTotal: Cart.subTotal(cartController.carts.value),
         total: Cart.total(
             cartController.carts.value, cartController.choseVoucher.value),
-        deliveryFee: Cart.deliveryFee());
+        deliveryFee: Cart.deliveryFee(),
+        timestamp: Timestamp.fromDate(DateTime.now()),
+        status: 1);
     documentReference
         .collection("checkout")
         .add(data.toJson())
         .whenComplete(() {
       Utils.showSnackBar("Checked out new order successfully", "primary");
+      deleteCart();
       Get.to(() => CheckOutScreen());
     }).catchError((_) {
       Utils.showSnackBar("Check out new order failed", "danger");

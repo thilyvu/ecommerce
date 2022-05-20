@@ -16,6 +16,7 @@ import 'package:ecommerce/screens/auth/Welcome/welcome.dart';
 import 'package:ecommerce/screens/cart/cart_screen.dart';
 import 'package:ecommerce/screens/checkout/checkout_screen.dart';
 import 'package:ecommerce/screens/dashboard/dashboard_screen.dart';
+import 'package:ecommerce/screens/history/history_order_screen.dart';
 import 'package:ecommerce/screens/profile/edit_profile.dart';
 import 'package:ecommerce/screens/profile/profile.dart';
 import 'package:ecommerce/screens/profile/update_password.dart';
@@ -31,42 +32,49 @@ class AppPages {
       FirebaseAuth.instance.currentUser != null ? '/dashboard' : '/welcome';
 
   static final routes = [
-    GetPage(name: '/dashboard', page: () => DashboardPage(), bindings: [
-      NavigationBinding(),
-      UserBinding(),
-      VoucherBinding(),
-      AddressBinding(),
-      CategoryBinding(),
-      ProductBinding(),
-      CartBinding(),
-      CheckoutBinding(),
-      WishlistBinding(),
-    ]),
-    GetPage(
+    GetPage<dynamic>(
+        name: '/dashboard',
+        page: () => DashboardPage(),
+        bindings: [
+          NavigationBinding(),
+          UserBinding(),
+          CheckoutBinding(),
+          VoucherBinding(),
+          AddressBinding(),
+          CategoryBinding(),
+          ProductBinding(),
+          CartBinding(),
+          WishlistBinding(),
+        ]),
+    GetPage<dynamic>(
       name: '/welcome',
       page: () => WelcomePage(),
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/login',
       page: () => LoginPage(),
       binding: UserBinding(),
     ),
-    GetPage(
+    GetPage<dynamic>(
+      name: '/history-order',
+      page: () => HistoryOrderPage(),
+      bindings: [CheckoutBinding()],
+    ),
+    GetPage<dynamic>(
       name: '/voucher',
       page: () => VoucherPage(),
-      // bindings: [CartBinding(), VoucherBinding()],
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/forgot-password',
       page: () => ForgotPassPage(),
       binding: UserBinding(),
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/signUp',
       page: () => SignUpPage(),
       binding: UserBinding(),
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/cart',
       page: () => CartScreen(),
       bindings: [
@@ -77,65 +85,71 @@ class AppPages {
         CartBinding(),
       ],
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/catalog/:name',
       page: () => CatalogScreen(),
       bindings: [UserBinding(), ProductBinding(), CategoryBinding()],
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/list-address',
       page: () => ListAddressPage(),
       bindings: [UserBinding(), CartBinding(), AddressBinding()],
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/customer-info',
       page: () => CustomerInfoPage(),
       bindings: [UserBinding(), AddressBinding()],
     ),
-    GetPage(name: '/home', page: () => HomeScreen(), bindings: [
+    GetPage<dynamic>(name: '/home', page: () => HomeScreen(), bindings: [
       UserBinding(),
       AddressBinding(),
       ProductBinding(),
       CategoryBinding(),
       CartBinding()
     ]),
-    GetPage(name: '/checkout', page: () => CheckOutScreen(), bindings: [
-      CheckoutBinding(),
-      VoucherBinding(),
-      ProductBinding(),
-      CategoryBinding(),
-      AddressBinding(),
-    ]),
-    GetPage(name: '/product/:id', page: () => ProductScreen(), bindings: [
-      UserBinding(),
-      ProductBinding(),
-      AddressBinding(),
-      CategoryBinding(),
-      WishlistBinding(),
-      CartBinding(),
-    ]),
-    GetPage(
+    GetPage<dynamic>(
+        name: '/checkout',
+        page: () => CheckOutScreen(),
+        bindings: [
+          CheckoutBinding(),
+          VoucherBinding(),
+          ProductBinding(),
+          CategoryBinding(),
+          AddressBinding(),
+        ]),
+    GetPage<dynamic>(
+        name: '/product/:id',
+        page: () => ProductScreen(),
+        bindings: [
+          UserBinding(),
+          ProductBinding(),
+          AddressBinding(),
+          CategoryBinding(),
+          WishlistBinding(),
+          CartBinding(),
+        ]),
+    GetPage<dynamic>(
         name: '/profile',
         page: () => ProfilePage(),
         bindings: [UserBinding(), AddressBinding()]),
-    GetPage(
+    GetPage<dynamic>(
       name: '/profile/password',
       page: () => UpdatePasswordPage(),
       binding: UserBinding(),
     ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/profile/update',
       page: () => UpdateProfilePage(),
       binding: UserBinding(),
     ),
-    // GetPage(
+    // GetPage<dynamic>(
     //   name: '/splash',
     //   page: () => SplashScreen(),
     // ),
-    GetPage(
+    GetPage<dynamic>(
       name: '/wishlist',
       page: () => WishlistScreen(),
-      bindings: [UserBinding(), ProductBinding(), WishlistBinding()],
+      bindings: [UserBinding(), WishlistBinding(), ProductBinding()],
     ),
   ];
 }

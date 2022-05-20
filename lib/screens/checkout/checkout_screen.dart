@@ -108,7 +108,7 @@ class CheckOutScreen extends GetView<CheckoutController> {
                   const SizedBox(
                     height: 5,
                   ),
-                  if (controller.checkout.value.length > 0)
+                  if (controller.checkout.value.isNotEmpty)
                     ListView.builder(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,

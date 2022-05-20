@@ -28,7 +28,6 @@ class _MyAppState extends State<MyApp> {
       scaffoldMessengerKey: Utils.messengerKey,
       theme: theme(),
       getPages: AppPages.routes,
-      // unknownRoute: GetPage(name: "/notfound", page: () => NotFoundPage()),
       initialRoute: AppPages.initRoute,
     );
   }

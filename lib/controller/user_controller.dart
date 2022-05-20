@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:ecommerce/models/user_model.dart';
 import 'package:ecommerce/screens/auth/Login/login.dart';
-import 'package:ecommerce/screens/home/home_screen.dart';
 import 'package:ecommerce/utils/snackBar.dart';
+import 'package:ecommerce/utils/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as Path;
 
 class UserController extends GetxController {
   var user = CurrentUser().obs;
@@ -90,12 +88,17 @@ class UserController extends GetxController {
   }
 
   Future updateAvatar() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    final directory = await getApplicationDocumentsDirectory();
-    final name = Path.basename(image.path);
-    final imageFile = File('${directory.path}/$name');
-    final newImage = await File(image.path).copy(imageFile.path);
-    avatarController.value = newImage.path;
+    ImagePicker _picker = ImagePicker();
+    StorageService storage = StorageService();
+
+    final XFile? _image = await _picker.pickImage(source: ImageSource.gallery);
+    if (_image == null) {
+      Utils.showSnackBar('No image was selected', 'danger');
+    }
+    if (_image != null) {
+      await storage.uploadImage(_image);
+      var imageURL = await storage.getDownloadURL(_image.name);
+      avatarController.value = imageURL;
+    }
   }
 }

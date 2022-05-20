@@ -8,12 +8,9 @@ import 'package:ecommerce/screens/profile/widget/input.dart';
 import 'package:ecommerce/utils/backAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 class UpdateProfilePage extends GetView<UserController> {
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     String nameController = controller.user.value.displayName!;

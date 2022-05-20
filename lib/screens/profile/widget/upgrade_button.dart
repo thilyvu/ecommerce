@@ -39,13 +39,6 @@ class ProfileButton extends StatelessWidget {
                 SizedBox(
                   height: 5.0,
                 ),
-                Text(
-                  "LogOut",
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                  ),
-                ),
               ],
             ),
             Spacer(),

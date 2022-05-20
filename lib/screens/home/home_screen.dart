@@ -1,7 +1,9 @@
 import 'package:ecommerce/controller/product_controller.dart';
+import 'package:ecommerce/models/models.dart';
 import 'package:ecommerce/screens/home/widget/category_grid.dart';
 import 'package:ecommerce/screens/home/widget/emoji_text.dart';
 import 'package:ecommerce/screens/home/widget/search_input.dart';
+import 'package:ecommerce/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants/colors.dart';
@@ -51,14 +53,14 @@ class HomeScreen extends GetView<ProductController> {
       title: const Padding(
         padding: EdgeInsets.only(left: 10),
         child: Text(
-          'Hello Thi Ly Vu!',
+          'Hello !!',
           style: TextStyle(color: kFontLight, fontSize: 16),
         ),
       ),
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/wishlist');
+            Get.to(() => WishlistScreen());
           },
           icon: const Icon(Icons.favorite),
           color: Colors.black,

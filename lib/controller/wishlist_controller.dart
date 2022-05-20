@@ -25,7 +25,7 @@ class WishlistController extends GetxController {
   void addProductToWishlist(Product product) {
     final index = wishlist.value
         .indexWhere((element) => element.product!.name == product.name);
-    if (index != -1) {
+    if (index == -1) {
       documentReference
           .collection('wishlist')
           .add(Wishlist(product: product).toJson())

@@ -42,7 +42,7 @@ class ProfilePage extends GetView<UserController> {
             height: 10,
           ),
           ProfileButton(
-              text: "Đổi mật khẩu",
+              text: "Change Password",
               icon: const Icon(
                 Icons.edit,
                 size: 18,
@@ -50,7 +50,7 @@ class ProfilePage extends GetView<UserController> {
               ),
               onClick: () => Get.to(() => UpdatePasswordPage())),
           ProfileButton(
-              text: "Đăng xuất",
+              text: "Logout",
               icon: const Icon(
                 Icons.logout,
                 size: 18,

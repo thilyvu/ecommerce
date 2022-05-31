@@ -9,7 +9,9 @@ import 'package:get/get.dart';
 import '../../constants/colors.dart';
 import '../../widgets/widgets.dart';
 
-class HomeScreen extends GetView<ProductController> {
+class HomeScreen extends GetView {
+  ProductController productController = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +29,17 @@ class HomeScreen extends GetView<ProductController> {
               const SectionTitle(title: 'RECOMMEND ITEMS'),
               Obx(
                 () => ProductCarousel(
-                    products: controller.getProductsRecommend()),
+                    products: productController.getProductsRecommend()),
               ),
               const SectionTitle(title: 'POPULAR'),
               Obx(
-                () =>
-                    ProductCarousel(products: controller.getProductsPopular()),
+                () => ProductCarousel(
+                    products: productController.getProductsPopular()),
               ),
               const SectionTitle(title: 'SPECIAL ITEMS'),
               Obx(
-                () =>
-                    ProductCarousel(products: controller.getProductsSpecial()),
+                () => ProductCarousel(
+                    products: productController.getProductsSpecial()),
               ),
             ],
           ),

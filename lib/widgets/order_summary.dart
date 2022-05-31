@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ecommerce/controller/cart_controller.dart';
 import 'package:ecommerce/models/cart_model.dart';
 import 'package:ecommerce/screens/checkout/checkout_screen.dart';
@@ -6,10 +8,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
+import 'package:pay/pay.dart';
 
 class OrderSummary extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
+    final _paymentItems = [
+      PaymentItem(
+        label: 'Total',
+        amount:
+            Cart.total(controller.carts.value, controller.choseVoucher.value)
+                .toString(),
+        status: PaymentItemStatus.final_price,
+      )
+    ];
     return Obx(
       () => Column(
         children: [
@@ -147,12 +159,27 @@ class OrderSummary extends GetView<CartController> {
                 // Get.to(() => CheckOutScreen());
               },
               child: Text(
-                'GO TO CHECKOUT',
+                'CHECKOUT BY CASH',
                 style: Theme.of(context)
                     .textTheme
                     .headline3!
                     .copyWith(color: Colors.white),
-              ))
+              )),
+          GooglePayButton(
+            paymentConfigurationAsset: 'gpay.json',
+            paymentItems: _paymentItems,
+            width: 200,
+            height: 50,
+            style: GooglePayButtonStyle.black,
+            type: GooglePayButtonType.checkout,
+            margin: const EdgeInsets.only(top: 15.0),
+            onPaymentResult: (s) {
+              print(s);
+            },
+            loadingIndicator: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
         ],
       ),
     );

@@ -66,7 +66,7 @@ class ProductScreen extends GetView<ProductController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "product.name",
+                            product.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!

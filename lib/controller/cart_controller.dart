@@ -15,7 +15,7 @@ class CartController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
 
-  final String uid = Get.find<UserController>().uid;
+  final String uid = Get.put(UserController()).uid;
   // final Address choseAddress = Get.find<AddressController>().choseAddress.value;
 
   var carts = RxList<Cart>([]).obs;
@@ -115,7 +115,8 @@ class CartController extends GetxController {
             cartController.carts.value, cartController.choseVoucher.value),
         deliveryFee: Cart.deliveryFee(),
         timestamp: Timestamp.fromDate(DateTime.now()),
-        status: 1);
+        status: 1,
+        rating: 3);
     documentReference
         .collection("checkout")
         .add(data.toJson())

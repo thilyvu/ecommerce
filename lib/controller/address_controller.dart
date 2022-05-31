@@ -12,7 +12,7 @@ class AddressController extends GetxController {
   final DOCUMENT_NAME = "address";
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
-  String uid = Get.find<UserController>().uid;
+  String uid = Get.put(UserController()).uid;
 
   var address = RxList<Address>([]).obs;
 

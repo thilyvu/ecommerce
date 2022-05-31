@@ -30,7 +30,7 @@ class ProfileButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Change Password",
+                  text,
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,

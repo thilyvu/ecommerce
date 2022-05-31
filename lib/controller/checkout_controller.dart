@@ -34,17 +34,16 @@ class CheckoutController extends GetxController {
 
   int numberOfOrders() => checkout.value.length;
 
-  // Future rateOrder(Checkout data, double rating) async {
-  //   data.rating = rating;
-  //   documentReference
-  //       .collection(DOCUMENT_NAME)
-  //       .doc(data.id)
-  //       .update(data.toJson())
-  //       .whenComplete(() {
-  //     // checkouts.value.bindStream(getAllCheckout());
-  //     Utils.showSnackBar("Rate order successfull", "primary");
-  //   }).catchError(() {
-  //     Utils.showSnackBar("Rate order failed", "danger");
-  //   });
-  // }
+  Future rateOrder(Checkout data, double rating) async {
+    data.rating = rating;
+    documentReference
+        .collection(DOCUMENT_NAME)
+        .doc(data.id)
+        .update(data.toJson())
+        .whenComplete(() {
+      Utils.showSnackBar("Rate order successfull", "primary");
+    }).catchError(() {
+      Utils.showSnackBar("Rate order failed", "danger");
+    });
+  }
 }

@@ -115,7 +115,8 @@ class CartController extends GetxController {
             cartController.carts.value, cartController.choseVoucher.value),
         deliveryFee: Cart.deliveryFee(),
         timestamp: Timestamp.fromDate(DateTime.now()),
-        status: 1);
+        status: 1,
+        rating: 3);
     documentReference
         .collection("checkout")
         .add(data.toJson())

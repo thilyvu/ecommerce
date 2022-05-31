@@ -14,17 +14,18 @@ class Checkout extends Equatable {
   Voucher? voucher;
   Timestamp? timestamp;
   int? status;
-  Checkout({
-    this.id,
-    this.address,
-    this.carts,
-    this.subTotal,
-    this.deliveryFee,
-    this.total,
-    this.voucher,
-    this.timestamp,
-    this.status,
-  });
+  double? rating;
+  Checkout(
+      {this.id,
+      this.address,
+      this.carts,
+      this.subTotal,
+      this.deliveryFee,
+      this.total,
+      this.voucher,
+      this.timestamp,
+      this.status,
+      this.rating});
 
   @override
   List<Object?> get props => [
@@ -35,23 +36,24 @@ class Checkout extends Equatable {
         voucher,
         carts,
         timestamp,
-        status
+        status,
+        rating,
       ];
 
   static Checkout fromSnapshot(DocumentSnapshot snap) {
     Checkout checkout = Checkout(
-      id: snap.id,
-      address: Address.fromJson(snap['address']),
-      carts: snap['cart']
-          .map<Cart>((mapString) => Cart.fromJson(mapString))
-          .toList(),
-      voucher: Voucher.fromJson(snap['voucher']),
-      total: snap['total'],
-      subTotal: snap['subTotal'],
-      deliveryFee: snap['deliveryFee'],
-      timestamp: snap['timestamp'],
-      status: snap['status'],
-    );
+        id: snap.id,
+        address: Address.fromJson(snap['address']),
+        carts: snap['cart']
+            .map<Cart>((mapString) => Cart.fromJson(mapString))
+            .toList(),
+        voucher: Voucher.fromJson(snap['voucher']),
+        total: snap['total'],
+        subTotal: snap['subTotal'],
+        deliveryFee: snap['deliveryFee'],
+        timestamp: snap['timestamp'],
+        status: snap['status'],
+        rating: snap['rating'].toDouble());
     return checkout;
   }
 
@@ -64,5 +66,6 @@ class Checkout extends Equatable {
         'deliveryFee': deliveryFee,
         'timestamp': timestamp,
         'status': status,
+        'rating': rating,
       };
 }

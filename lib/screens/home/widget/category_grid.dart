@@ -2,7 +2,8 @@ import 'package:ecommerce/controller/category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CategoryGrid extends GetView<CategoryController> {
+class CategoryGrid extends GetView {
+  CategoryController categoryController = Get.put(CategoryController());
   @override
   Widget build(BuildContext context) {
     return Obx(() => GridView.builder(
@@ -15,15 +16,16 @@ class CategoryGrid extends GetView<CategoryController> {
           childAspectRatio: MediaQuery.of(context).size.width /
               (MediaQuery.of(context).size.height / 2),
         ),
-        itemCount: controller.category.value.length,
+        itemCount: categoryController.category.value.length,
         itemBuilder: (BuildContext context, int index) {
           return CategoriesTile(
-            assetPath: controller.category.value[index].imageUrl!,
+            assetPath: categoryController.category.value[index].imageUrl!,
             color: Color(0xffFCE8A8),
-            title: controller.category.value[index].name!,
+            title: categoryController.category.value[index].name!,
             onPressed: () {
               Get.toNamed("/catalog/" +
-                  controller.category.value[index].name!.replaceAll(" ", "+"));
+                  categoryController.category.value[index].name!
+                      .replaceAll(" ", "+"));
             },
           );
         }));

@@ -101,4 +101,19 @@ class UserController extends GetxController {
       avatarController.value = imageURL;
     }
   }
+
+  Future numberOfOrders() async {
+    ImagePicker _picker = ImagePicker();
+    StorageService storage = StorageService();
+
+    final XFile? _image = await _picker.pickImage(source: ImageSource.gallery);
+    if (_image == null) {
+      Utils.showSnackBar('No image was selected', 'danger');
+    }
+    if (_image != null) {
+      await storage.uploadImage(_image);
+      var imageURL = await storage.getDownloadURL(_image.name);
+      avatarController.value = imageURL;
+    }
+  }
 }

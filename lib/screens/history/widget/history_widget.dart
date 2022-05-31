@@ -3,6 +3,7 @@ import 'package:ecommerce/models/cart_model.dart';
 import 'package:ecommerce/models/checkout_model.dart';
 import 'package:ecommerce/screens/history/widget/status_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 class HistoryWidget extends GetView<CheckoutController> {
@@ -91,17 +92,6 @@ class OrderCard extends GetView<CheckoutController> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              // SizedBox(
-                              //   width: 285,
-                              //   child: Text(
-                              //     listCarts[index].product!,
-                              //     style: const TextStyle(
-                              //       fontSize: 12,
-                              //     ),
-                              //     overflow: TextOverflow.clip,
-                              //     maxLines: 2,
-                              //   ),
-                              // ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -157,61 +147,26 @@ class OrderCard extends GetView<CheckoutController> {
               ),
               const SizedBox(
                 height: 10,
+                child: Text("Rating"),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // !order.isAccepted
-                  //     ? ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //             primary: Colors.black,
-                  //             minimumSize: const Size(150, 40)),
-                  //         onPressed: () {
-                  //           controller.updateOrder(
-                  //               order, 'isAccepted', !order.isAccepted);
-                  //         },
-                  //         child: const Text(
-                  //           'Accept',
-                  //           style: TextStyle(
-                  //             fontSize: 12,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     : ElevatedButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //             primary: Colors.black,
-                  //             minimumSize: const Size(150, 40)),
-                  //         onPressed: () {
-                  //           controller.updateOrder(
-                  //               order, 'isDelivered', !order.isDelivered);
-                  //         },
-                  //         child: const Text(
-                  //           'Deliver',
-                  //           style: TextStyle(
-                  //             fontSize: 12,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       ),
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //       primary: Colors.black,
-                  //       minimumSize: const Size(150, 40)),
-                  //   onPressed: () {
-                  //     controller.updateOrder(
-                  //         order, 'isCanceled', !order.isAccepted);
-                  //   },
-                  //   child: const Text(
-                  //     'Cancel',
-                  //     style: TextStyle(
-                  //       fontSize: 12,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  // )
-                ],
+              RatingBar.builder(
+                initialRating: 3,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                unratedColor: Colors.amber.withAlpha(50),
+                itemCount: 5,
+                itemSize: 50.0,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) =>
+                    controller.rateOrder(checkout, rating),
+                updateOnDrag: true,
               ),
+              SizedBox(height: 20.0),
             ],
           ),
         ),

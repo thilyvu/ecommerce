@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class WishlistController extends GetxController {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late DocumentReference documentReference;
-  String uid = Get.find<UserController>().uid;
+  String uid = Get.put(UserController()).uid;
 
   RxList<Wishlist> wishlist = RxList<Wishlist>([]);
 

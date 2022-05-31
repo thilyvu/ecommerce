@@ -7,10 +7,12 @@ import 'package:ecommerce/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CartScreen extends GetView<CartController> {
+class CartScreen extends GetView {
+  CartController cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.isLoading.value
+    return Obx(() => cartController.isLoading.value
         ? const Center(
             child: CircularProgressIndicator(),
           )
@@ -25,12 +27,13 @@ class CartScreen extends GetView<CartController> {
                       children: [
                         Column(
                           children: [
-                            if (controller.choseAddress().name != null)
+                            if (cartController.choseAddress().name != null)
                               AddressWidget(
-                                  name: controller.choseAddress.value.name!,
-                                  phone: controller.choseAddress.value.phone!,
+                                  name: cartController.choseAddress.value.name!,
+                                  phone:
+                                      cartController.choseAddress.value.phone!,
                                   address: Address.concatAddress(
-                                      controller.choseAddress())),
+                                      cartController.choseAddress())),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -66,8 +69,8 @@ class CartScreen extends GetView<CartController> {
                                           const EdgeInsets.only(bottom: 8.0),
                                       child: Row(children: [
                                         Image.network(
-                                          controller.carts.value[index].product!
-                                              .imageUrl!,
+                                          cartController.carts.value[index]
+                                              .product!.imageUrl!,
                                           width: 100,
                                           height: 80,
                                           fit: BoxFit.cover,
@@ -79,14 +82,17 @@ class CartScreen extends GetView<CartController> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller.carts.value[index]
-                                                    .product!.name!,
+                                                cartController
+                                                    .carts
+                                                    .value[index]
+                                                    .product!
+                                                    .name!,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5,
                                               ),
                                               Text(
-                                                '\$${controller.carts.value[index].product!.price}',
+                                                '\$${cartController.carts.value[index].product!.price}',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline6,
@@ -99,15 +105,16 @@ class CartScreen extends GetView<CartController> {
                                           children: [
                                             IconButton(
                                                 onPressed: () {
-                                                  controller.decreasedCartItem(
-                                                      index,
-                                                      controller
-                                                          .carts.value[index]);
+                                                  cartController
+                                                      .decreasedCartItem(
+                                                          index,
+                                                          cartController.carts
+                                                              .value[index]);
                                                 },
                                                 icon: const Icon(
                                                     Icons.remove_circle)),
                                             Text(
-                                                controller
+                                                cartController
                                                     .carts.value[index].quantity
                                                     .toString(),
                                                 style: Theme.of(context)
@@ -115,11 +122,12 @@ class CartScreen extends GetView<CartController> {
                                                     .headline4),
                                             IconButton(
                                                 onPressed: () {
-                                                  controller.increaseCartItem(
-                                                      controller
-                                                          .carts
-                                                          .value[index]
-                                                          .product!);
+                                                  cartController
+                                                      .increaseCartItem(
+                                                          cartController
+                                                              .carts
+                                                              .value[index]
+                                                              .product!);
                                                 },
                                                 icon: const Icon(
                                                     Icons.add_circle))
@@ -128,7 +136,7 @@ class CartScreen extends GetView<CartController> {
                                       ]),
                                     );
                                   },
-                                  itemCount: controller.carts.value.length),
+                                  itemCount: cartController.carts.value.length),
                             ),
                           ],
                         ),

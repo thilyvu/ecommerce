@@ -145,27 +145,27 @@ class OrderCard extends GetView<CheckoutController> {
                   )
                 ],
               ),
-              const SizedBox(
-                height: 10,
-                child: Text("Rating"),
-              ),
-              RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                unratedColor: Colors.amber.withAlpha(50),
-                itemCount: 5,
-                itemSize: 50.0,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) =>
-                    controller.rateOrder(checkout, rating),
-                updateOnDrag: true,
-              ),
+              // const SizedBox(
+              //   height: 10,
+              //   child: Text("Rating"),
+              // ),
+              // RatingBar.builder(
+              //   initialRating: 3,
+              //   minRating: 1,
+              //   direction: Axis.horizontal,
+              //   allowHalfRating: true,
+              //   unratedColor: Colors.amber.withAlpha(50),
+              //   itemCount: 5,
+              //   itemSize: 50.0,
+              //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              //   itemBuilder: (context, _) => Icon(
+              //     Icons.star,
+              //     color: Colors.amber,
+              //   ),
+              //   onRatingUpdate: (rating) =>
+              //       controller.rateOrder(checkout, rating),
+              //   updateOnDrag: true,
+              // ),
               SizedBox(height: 20.0),
             ],
           ),
